@@ -37,14 +37,40 @@ def forword(inputdata):
     # multi_rnn_cell = tf.nn.rnn_cell.MultiRNNCell([cell1,cell2])
     # multi_rnn_cell.zero_state(batch_size,dtype=tf.uint8)
     # cell1=BasicLSTMCell()
-    outputs, final_state = tf.nn.dynamic_rnn(cell1, inputs=inputdata, dtype=tf.uint8)
+
+    outputs, final_state = tf.nn.dynamic_rnn(cell1, inputs=finputdata, dtype=tf.float32)
+    # [batch, in_height, in_width, in_channels]
+    out=tf.nn.conv2d(outputs[:,-1,:,:,:],filter=[3,3,hidden_units1,1],padding='SAME',strides=[1,1,1,1])
 
     return outputs, final_state
 
 
+def mean_squared_error(true, pred):
+  """L2 distance between tensors true and pred.
+
+  Args:
+    true: the ground truth image.
+    pred: the predicted image.
+  Returns:
+    mean squared error between ground truth and predicted image.
+  """
+  return tf.reduce_sum(tf.square(true - pred)) / tf.to_float(tf.size(pred))
+
+def HSSLoss(true, pred):
+  """L2 distance between tensors true and pred.
+
+  Args:
+    true: the ground truth image.
+    pred: the predicted image.
+  Returns:
+    mean squared error between ground truth and predicted image.
+  """
+  return tf.reduce_sum(tf.square(true - pred)) / tf.to_float(tf.size(pred))
+
+
 def train():
-    x_data = tf.placeholder(shape=[batch_size,time_step, width, height], dtype=tf.uint8)
-    y_target = tf.placeholder(shape=[batch_size,time_step, width, height], dtype=tf.uint8)
+    x_data = tf.placeholder(shape=[batch_size,time_step, width, height], dtype=tf.float32)
+    y_target = tf.placeholder(shape=[batch_size,time_step, width, height], dtype=tf.float32)
     exampleBatch = IOUtil.readBatchData(out_path, batch_size, time_step, width, height)
     init = tf.global_variables_initializer()
     outputs, final_state = forword(x_data)
@@ -54,12 +80,7 @@ def train():
     # logits = tf.nn.xw_plus_b(outputs, softmax_w, softmax_b)
     # Reshape logits to be a 3-D tensor for sequence loss
     # logits = tf.reshape(outputs, [batch_size, time_step, 2])
-    loss = tf.contrib.seq2seq.sequence_loss(
-        outputs,
-        y_target,
-        tf.ones([batch_size, time_step], dtype=tf.int32),
-        average_across_timesteps=False,
-        average_across_batch=True)
+    loss = HSSLoss(outputs,y_target)
     # 声明优化器
     optimizer = tf.train.GradientDescentOptimizer(learningRate)
     train_step = optimizer.minimize(tf.reduce_sum(loss))
@@ -72,11 +93,11 @@ def train():
             array = sess.run(exampleBatch)
             array1 = np.reshape(array, [batch_size, time_step, width, height])
             sess.run(train_step, feed_dict={'x_data': exampleBatch, 'y_target': exampleBatch})
-        if (i + 1) % 5 == 0:
-            # print('Step #' + str(i + 1) + ' A = ' + str(sess.run(A)))
-            temp_loss = sess.run(loss, feed_dict={x_data: exampleBatch, y_target: exampleBatch})
-            print('Loss = ' + str(temp_loss))
-            # loss_batch.append(temp_loss)
+            if (i + 1) % 5 == 0:
+                # print('Step #' + str(i + 1) + ' A = ' + str(sess.run(A)))
+                temp_loss = sess.run(loss, feed_dict={x_data: exampleBatch, y_target: exampleBatch})
+                print('Loss = ' + str(temp_loss))
+                # loss_batch.append(temp_loss)
 
 # def run_epoch(session, model, eval_op=None, verbose=False):
 #     """Runs the model on the given data."""
