@@ -6,6 +6,10 @@ from PIL import Image  # 注意Image,后面会用到
 import matplotlib.pyplot as plt
 import numpy as np
 
+owidth = 501
+oheight = 501
+width=100
+height=100
 
 # read data and put into array
 def writeData():
@@ -55,9 +59,15 @@ def readBatchData(filename,batchsize,seq_length,width,height):
     img = []
     for i in range(0, seq_length):
         tmp = tf.image.decode_png(features["%03d" % i], channels=1)
+        # tmp = tf.image.resize_image_with_crop_or_pad(tmp, oheight, owidth)
+        tmp=tf.reshape(tmp,[1,oheight,owidth,1])
+        tmp = tf.image.resize_bicubic(tmp, [height, width])
+        tmp = tf.cast(tmp, tf.float32) / 255
         img.append(tmp)
     img = tf.reshape(img, [seq_length, width, height])
-    exampleBatch = tf.train.shuffle_batch([img], batch_size=batchsize, capacity=500, min_after_dequeue=50)
+    exampleBatch = tf.train.shuffle_batch([img], batch_size=batchsize, capacity=100, min_after_dequeue=20)
+    return  exampleBatch
+
 
 
 def testRead(filename):  # 读入dog_train.tfrecords
@@ -88,7 +98,7 @@ def testRead(filename):  # 读入dog_train.tfrecords
     # img = tf.image.decode_png(features['sample_img'], channels=1)
     # img = tf.reshape(img, [501, 501])
     img=tf.reshape(img,[61,501,501])
-    exampleBatch = tf.train.shuffle_batch([img],batch_size=30, capacity=500,min_after_dequeue=50)
+    exampleBatch = tf.train.shuffle_batch([img],batch_size=10, capacity=500,min_after_dequeue=50)
 
     os.environ["CUDA_VISIBLE_DEVICES"] = "1"
     config = tf.ConfigProto()
@@ -98,7 +108,7 @@ def testRead(filename):  # 读入dog_train.tfrecords
         coord = tf.train.Coordinator()
         threads = tf.train.start_queue_runners(coord=coord)
         array = sess.run(exampleBatch)
-        array1 = np.reshape(array, [30,61,501, 501])
+        array1 = np.reshape(array, [10,61,501, 501])
         for i in range(0,61):
            plt.imshow(array1[0,i,:,:].astype(np.float32))
            plt.show()

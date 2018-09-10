@@ -1,6 +1,6 @@
 import os
 
-import tensorflow as tf;
+import tensorflow as tf
 import numpy as np
 
 # 建立前馈网络
@@ -11,18 +11,22 @@ from CELL import ConvLSTMCell
 import IOUtil
 
 hidden_units1 = 32
-hidden_units2 = 64
+# hidden_units2 = 32
 time_step = 61
-hidden_layer = 2
+stop_in_step = 31
+hidden_layer = 1
 learningRate = 0.01
 
-batch_size = 20
-width = 501
-height = 501
+batch_size = 5
+width = 100
+height = 100
+
 out_path = '/home/wingsby/SRAD.tf'
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
-config = tf.ConfigProto()
-config.gpu_options.allow_growth = True
+
+
+# os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+# config = tf.ConfigProto()
+# config.gpu_options.allow_growth = True
 
 
 def forword(inputdata):
@@ -32,106 +36,89 @@ def forword(inputdata):
     # outputs, state = tf.nn.dynamic_rnn(cell, inputs, dtype=
     # inputs = tf.placeholder(tf.float32, [batch_size, time_step] + [width,height] + [3])
     finputdata = tf.tile(tf.expand_dims(inputdata, -1), [1, 1, 1, 1, hidden_units1])
-    cell1 = ConvLSTMCell(shape=[width,height],filters=hidden_units1,kernel=[7,7])
+    cell1 = ConvLSTMCell(shape=[width, height], filters=hidden_units1, kernel=[7, 7])
     # cell2 = ConvLSTMCell(shape=[time_step,width,height],filters=hidden_units2,kernel=[7,7])
     # multi_rnn_cell = tf.nn.rnn_cell.MultiRNNCell([cell1,cell2])
     # multi_rnn_cell.zero_state(batch_size,dtype=tf.uint8)
     # cell1=BasicLSTMCell()
 
     outputs, final_state = tf.nn.dynamic_rnn(cell1, inputs=finputdata, dtype=tf.float32)
-    # [batch, in_height, in_width, in_channels]
-    out=tf.nn.conv2d(outputs[:,-1,:,:,:],filter=[3,3,hidden_units1,1],padding='SAME',strides=[1,1,1,1])
-
-    return outputs, final_state
+    weights = tf.truncated_normal([time_step, 3, 3, hidden_units1, 1], stddev=0.1)
+    conv1 = tf.constant(0.1)
+    out = tf.nn.relu(tf.nn.conv3d(outputs, weights, padding='SAME', strides=[1, 1, 1, 1, 1])) + conv1
+    # tf.nn.conv2d(x, w, strides=[1, 1, 1, 1], padding='SAME')
+    return out, final_state
 
 
 def mean_squared_error(true, pred):
-  """L2 distance between tensors true and pred.
+    """L2 distance between tensors true and pred.
 
-  Args:
-    true: the ground truth image.
-    pred: the predicted image.
-  Returns:
-    mean squared error between ground truth and predicted image.
-  """
-  return tf.reduce_sum(tf.square(true - pred)) / tf.to_float(tf.size(pred))
+    Args:
+      true: the ground truth image.
+      pred: the predicted image.
+    Returns:
+      mean squared error between ground truth and predicted image.
+    """
+    return tf.reduce_sum(tf.square(true - pred)) / tf.to_float(tf.size(pred))
+
 
 def HSSLoss(true, pred):
-  """L2 distance between tensors true and pred.
+    """L2 distance between tensors true and pred.
 
-  Args:
-    true: the ground truth image.
-    pred: the predicted image.
-  Returns:
-    mean squared error between ground truth and predicted image.
-  """
-  return tf.reduce_sum(tf.square(true - pred)) / tf.to_float(tf.size(pred))
+    Args:
+      true: the ground truth image.
+      pred: the predicted image.
+    Returns:
+      mean squared error between ground truth and predicted image.
+    """
+    #  hits/false alarm/correct neg/miss
+    hits, neg_cor, fa_alm, miss, sz = 0, 0, 0, 0, 0
+    for step in range(stop_in_step - 1, time_step - 1):
+        ctrue = true[:, step + 1, :, :].copy()
+        cpred = pred[:, step, :, :].copy()
+        ctrue[ctrue < 255] = 1
+        cpred[ctrue < 255] = 1
+        right = ctrue[ctrue == cpred]
+        hits += tf.size(right[right == 1])
+        neg_cor += tf.size(right[right > 200])
+        wrong = ctrue[ctrue != cpred]
+        fa_alm += tf.size(wrong[wrong > 200])
+        miss += tf.size(wrong[wrong == 1])
+        sz += tf.size(ctrue)
+    expCor = ((hits + miss) * (hits + fa_alm) +
+                       (neg_cor + miss) * (neg_cor + fa_alm))/sz
+    hss = (tf.cast((hits + neg_cor),tf.float64) - expCor) / (tf.cast((hits + neg_cor),tf.float64) - expCor)
+    return 1 - hss
 
 
 def train():
-    x_data = tf.placeholder(shape=[batch_size,time_step, width, height], dtype=tf.float32)
-    y_target = tf.placeholder(shape=[batch_size,time_step, width, height], dtype=tf.float32)
     exampleBatch = IOUtil.readBatchData(out_path, batch_size, time_step, width, height)
-    init = tf.global_variables_initializer()
+    # exampleBatch = tf.cast(exampleBatch, tf.float32)
+    x_data = exampleBatch
+    y_target = exampleBatch
     outputs, final_state = forword(x_data)
-    # softmax_w = tf.get_variable(
-    #     "softmax_w", [size, 2], dtype=tf.uint8)
-    # softmax_b = tf.get_variable("softmax_b", [2], dtype=tf.uint8)
-    # logits = tf.nn.xw_plus_b(outputs, softmax_w, softmax_b)
-    # Reshape logits to be a 3-D tensor for sequence loss
-    # logits = tf.reshape(outputs, [batch_size, time_step, 2])
-    loss = HSSLoss(outputs,y_target)
+    outputs = tf.reshape(outputs, [batch_size, time_step, width, height])
     # 声明优化器
+    # npout = sess.run(outputs)
+    # npy = sess.run(y_target)
+    loss = HSSLoss(outputs, y_target)
     optimizer = tf.train.GradientDescentOptimizer(learningRate)
     train_step = optimizer.minimize(tf.reduce_sum(loss))
-
-    with tf.Session(config=config) as sess:
+    # with tf.Session(config=config) as sess:
+    with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())
         coord = tf.train.Coordinator()
         threads = tf.train.start_queue_runners(coord=coord)
+
+
         for i in range(0, 1000):
-            array = sess.run(exampleBatch)
-            array1 = np.reshape(array, [batch_size, time_step, width, height])
-            sess.run(train_step, feed_dict={'x_data': exampleBatch, 'y_target': exampleBatch})
+            train_step.run()
             if (i + 1) % 5 == 0:
-                # print('Step #' + str(i + 1) + ' A = ' + str(sess.run(A)))
-                temp_loss = sess.run(loss, feed_dict={x_data: exampleBatch, y_target: exampleBatch})
+                print('Step #' + str(i + 1))
+                temp_loss = sess.run(loss)
                 print('Loss = ' + str(temp_loss))
                 # loss_batch.append(temp_loss)
 
-# def run_epoch(session, model, eval_op=None, verbose=False):
-#     """Runs the model on the given data."""
-#     start_time = time.time()
-#     costs = 0.0
-#     iters = 0
-#     state = session.run(model.initial_state)
-#
-#     fetches = {
-#         "cost": model.cost,
-#         "final_state": model.final_state,
-#     }
-#     if eval_op is not None:
-#         fetches["eval_op"] = eval_op
-#
-#     for step in range(model.input.epoch_size):
-#         feed_dict = {}
-#         for i, (c, h) in enumerate(model.initial_state):
-#             feed_dict[c] = state[i].c
-#             feed_dict[h] = state[i].h
-#
-#         vals = session.run(fetches, feed_dict)
-#         cost = vals["cost"]
-#         state = vals["final_state"]
-#
-#         costs += cost
-#         iters += model.input.num_steps
-#
-#         if verbose and step % (model.input.epoch_size // 10) == 10:
-#             print("%.3f perplexity: %.3f speed: %.0f wps" %
-#                   (step * 1.0 / model.input.epoch_size, np.exp(costs / iters),
-#                    iters * model.input.batch_size * max(1, FLAGS.num_gpus) /
-#                    (time.time() - start_time)))
-#
-#     return np.exp(costs / iters)
+
 if __name__ == "__main__":
     train()
