@@ -15,9 +15,9 @@ hidden_units1 = 32
 time_step = 61
 stop_in_step = 31
 hidden_layer = 1
-learningRate = 0.01
+learningRate = 0.001
 
-batch_size = 5
+batch_size =4
 width = 100
 height = 100
 
@@ -62,33 +62,63 @@ def mean_squared_error(true, pred):
     return tf.reduce_sum(tf.square(true - pred)) / tf.to_float(tf.size(pred))
 
 
+# def HSSLoss(true, pred):
+#     """L2 distance between tensors true and pred.
+#
+#     Args:
+#       true: the ground truth image.
+#       pred: the predicted image.
+#     Returns:
+#       mean squared error between ground truth and predicted image.
+#     """
+#     #  hits/false alarm/correct neg/miss
+#     hits, neg_cor, fa_alm, miss, sz = 0, 0, 0, 0, 0
+#     for step in range(stop_in_step - 1, time_step - 1):
+#         ctrue = true[:, step + 1, :, :].copy()
+#         cpred = pred[:, step, :, :].copy()
+#         ctrue[ctrue < 255] = 1
+#         cpred[ctrue < 255] = 1
+#         right = ctrue[ctrue == cpred]
+#         hits += tf.size(right[right == 1])
+#         neg_cor += tf.size(right[right > 200])
+#         wrong = ctrue[ctrue != cpred]
+#         fa_alm += tf.size(wrong[wrong > 200])
+#         miss += tf.size(wrong[wrong == 1])
+#         sz += tf.size(ctrue)
+#     expCor = ((hits + miss) * (hits + fa_alm) +
+#                        (neg_cor + miss) * (neg_cor + fa_alm))/sz
+#     hss = (tf.cast((hits + neg_cor),tf.float64) - expCor) / (tf.cast((hits + neg_cor),tf.float64) - expCor)
+#     return 1 - hss
+
+
 def HSSLoss(true, pred):
     """L2 distance between tensors true and pred.
 
-    Args:
-      true: the ground truth image.
-      pred: the predicted image.
-    Returns:
-      mean squared error between ground truth and predicted image.
-    """
-    #  hits/false alarm/correct neg/miss
-    hits, neg_cor, fa_alm, miss, sz = 0, 0, 0, 0, 0
-    for step in range(stop_in_step - 1, time_step - 1):
-        ctrue = true[:, step + 1, :, :].copy()
-        cpred = pred[:, step, :, :].copy()
-        ctrue[ctrue < 255] = 1
-        cpred[ctrue < 255] = 1
-        right = ctrue[ctrue == cpred]
-        hits += tf.size(right[right == 1])
-        neg_cor += tf.size(right[right > 200])
-        wrong = ctrue[ctrue != cpred]
-        fa_alm += tf.size(wrong[wrong > 200])
-        miss += tf.size(wrong[wrong == 1])
-        sz += tf.size(ctrue)
-    expCor = ((hits + miss) * (hits + fa_alm) +
-                       (neg_cor + miss) * (neg_cor + fa_alm))/sz
-    hss = (tf.cast((hits + neg_cor),tf.float64) - expCor) / (tf.cast((hits + neg_cor),tf.float64) - expCor)
-    return 1 - hss
+        Args:
+          true: the ground truth image.
+          pred: the predicted image.
+        Returns:
+          mean squared error between ground truth and predicted image.
+        """
+    # hits, neg_cor, fa_alm, miss, sz = 0, 0, 0, 0, 0
+    ttrue=tf.slice(true,[0,stop_in_step - 1,0,0],[batch_size,time_step-stop_in_step,width,height])
+    tpred=tf.slice(pred,[0,stop_in_step,0,0],[batch_size,time_step-stop_in_step,width,height])
+    # ttrue=tf.slice(true,[0,stop_in_step - 1,0,0],[batch_size,time_step-1,width,height])
+    # tpred=tf.slice(pred,[0,stop_in_step,0,0],[batch_size,time_step,width,height])
+    # 生成boolean类型
+
+    # btt=tf.cast(tf.less(ttrue,255),tf.float16)
+    # btp=tf.cast(tf.less(tpred,255),tf.float16)
+    # return tf.nn.softmax_cross_entropy_with_logits(labels=ttrue,logits=tpred)
+    # hits,_=tf.metrics.true_positives(btt,btp)
+    # neg_cor,_=tf.metrics.false_negatives(btt,btp)
+    # fa_alm,_=tf.metrics.false_positives(btt,btp)
+    # miss,_=tf.metrics.true_negatives(btt,btp)
+    # sz=tf.size(btt,out_type=tf.float32)
+    # expCor = ((hits + miss) * (hits + fa_alm) +(neg_cor + miss) * (neg_cor + fa_alm))
+    # hss = (hits + neg_cor - expCor) / (sz - expCor)
+    # return 1 - hss
+    return tf.reduce_sum(tf.square((ttrue - tpred)/256.0)) / tf.to_float(tf.size(tpred))*10000
 
 
 def train():
@@ -101,15 +131,15 @@ def train():
     # 声明优化器
     # npout = sess.run(outputs)
     # npy = sess.run(y_target)
-    loss = HSSLoss(outputs, y_target)
+    loss = HSSLoss(y_target,outputs)
     optimizer = tf.train.GradientDescentOptimizer(learningRate)
     train_step = optimizer.minimize(tf.reduce_sum(loss))
     # with tf.Session(config=config) as sess:
     with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())
+        sess.run(tf.local_variables_initializer())
         coord = tf.train.Coordinator()
         threads = tf.train.start_queue_runners(coord=coord)
-
 
         for i in range(0, 1000):
             train_step.run()
