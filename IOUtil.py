@@ -8,8 +8,11 @@ import numpy as np
 
 owidth = 501
 oheight = 501
-width=100
-height=100
+width = 50
+height = 50
+
+fixed_length=61
+
 
 # read data and put into array
 def writeData():
@@ -29,13 +32,13 @@ def writeData():
                     # img = Image.open(subroot + '/' + filename)
                     # img = img.resize((501, 501))
                     # img_raw = img.tobytes()  # 将图片转化为二进制格式
-                    img_raw=tf.gfile.FastGFile(subroot + '/' + filename, 'rb').read()
-                    tmp=re.findall('_\d{3}\.',filename)
-                    exampleImgs[tmp[0][1:4]]=img_raw
+                    img_raw = tf.gfile.FastGFile(subroot + '/' + filename, 'rb').read()
+                    tmp = re.findall('_\d{3}\.', filename)
+                    exampleImgs[tmp[0][1:4]] = img_raw
                     # print(img)# 'label': tf.train.Feature(bytes=tf.train.BytesList(value=[bytes(sub, encoding = "utf8")])),
                     # features=tf.trai
-                    features[tmp[0][1:4]]=tf.train.Feature(bytes_list=tf.train.BytesList(value=[img_raw]))
-                realfeatures=tf.train.Features(feature=features)
+                    features[tmp[0][1:4]] = tf.train.Feature(bytes_list=tf.train.BytesList(value=[img_raw]))
+                realfeatures = tf.train.Features(feature=features)
                 example = tf.train.Example(features=realfeatures)
                 writer.write(example.SerializeToString())  # 序列化为字符串
                 # outfeature=features
@@ -48,7 +51,31 @@ def writeData():
     # return outfeature
 
 
-def readBatchData(filename,batchsize,seq_length,width,height):
+def readBatchData(filename, batchsize, seq_length, width, height):
+    filename_queue = tf.train.string_input_producer([filename])  # 生成一个queue队列
+    reader = tf.TFRecordReader()
+    _, serialized_example = reader.read(filename_queue)  # 返回文件名和文件
+    prefeatures = dict()
+    for i in range(0, fixed_length):
+        prefeatures["%03d" % i] = tf.FixedLenFeature([], tf.string)
+    features = tf.parse_single_example(serialized_example, features=prefeatures)
+    img = []
+    skip=int((fixed_length-1)/(seq_length-1))
+    for i in range(0, seq_length):
+        k=i*skip
+        # print(k)
+        tmp = tf.image.decode_png(features["%03d" % k], channels=1)
+        # tmp = tf.image.resize_image_with_crop_or_pad(tmp, oheight, owidth)
+        tmp = tf.reshape(tmp, [1, oheight, owidth, 1])
+        tmp = tf.image.resize_bicubic(tmp, [height, width])
+        tmp = tf.cast(tmp, tf.float32) / 255
+        img.append(tmp)
+    img = tf.reshape(img, [seq_length, width, height])
+    exampleBatch = tf.train.shuffle_batch([img], batch_size=batchsize, capacity=100, min_after_dequeue=20)
+    return exampleBatch
+
+
+def readDataForForecast(filename, seq_length, width, height):
     filename_queue = tf.train.string_input_producer([filename])  # 生成一个queue队列
     reader = tf.TFRecordReader()
     _, serialized_example = reader.read(filename_queue)  # 返回文件名和文件
@@ -60,14 +87,12 @@ def readBatchData(filename,batchsize,seq_length,width,height):
     for i in range(0, seq_length):
         tmp = tf.image.decode_png(features["%03d" % i], channels=1)
         # tmp = tf.image.resize_image_with_crop_or_pad(tmp, oheight, owidth)
-        tmp=tf.reshape(tmp,[1,oheight,owidth,1])
+        tmp = tf.reshape(tmp, [1, oheight, owidth, 1])
         tmp = tf.image.resize_bicubic(tmp, [height, width])
         tmp = tf.cast(tmp, tf.float32) / 255
         img.append(tmp)
     img = tf.reshape(img, [seq_length, width, height])
-    exampleBatch = tf.train.shuffle_batch([img], batch_size=batchsize, capacity=100, min_after_dequeue=20)
-    return  exampleBatch
-
+    return img
 
 
 def testRead(filename):  # 读入dog_train.tfrecords
@@ -79,26 +104,26 @@ def testRead(filename):  # 读入dog_train.tfrecords
     #                                    features={
     #                                        'label': tf.FixedLenFeature([], tf.string),
     #                                        'sample_img': tf.FixedLenFeature([],dtype=tf.string)
-                                           # 'sample_img': tf.FixedLenFeature([], tf.string)
-                                       # })  # 将image数据和label取出来
+    # 'sample_img': tf.FixedLenFeature([], tf.string)
+    # })  # 将image数据和label取出来
     # features=tf.parse_example
     # img = tf.decode_raw(features['sample_img'], tf.uint8)
     # label = tf.decode_raw(features['label'], tf.uint8)
     # array = tf.reshape(img, [501, 501])  # reshape为128*128的3通道图片
     # labStr = tf.reshape(label, [30])
-    prefeatures=dict()
-    for i in range(0,61):
-        prefeatures["%03d" % i]=tf.FixedLenFeature([],tf.string)
-    features = tf.parse_single_example(serialized_example,features=prefeatures)
-    img=[]
+    prefeatures = dict()
     for i in range(0, 61):
-        tmp=tf.image.decode_png(features["%03d" % i], channels=1)
+        prefeatures["%03d" % i] = tf.FixedLenFeature([], tf.string)
+    features = tf.parse_single_example(serialized_example, features=prefeatures)
+    img = []
+    for i in range(0, 61):
+        tmp = tf.image.decode_png(features["%03d" % i], channels=1)
         # tmp=tf.reshape(tmp,[501,501])
         img.append(tmp)
     # img = tf.image.decode_png(features['sample_img'], channels=1)
     # img = tf.reshape(img, [501, 501])
-    img=tf.reshape(img,[61,501,501])
-    exampleBatch = tf.train.shuffle_batch([img],batch_size=10, capacity=500,min_after_dequeue=50)
+    img = tf.reshape(img, [61, 501, 501])
+    exampleBatch = tf.train.shuffle_batch([img], batch_size=10, capacity=500, min_after_dequeue=50)
 
     os.environ["CUDA_VISIBLE_DEVICES"] = "1"
     config = tf.ConfigProto()
@@ -108,16 +133,15 @@ def testRead(filename):  # 读入dog_train.tfrecords
         coord = tf.train.Coordinator()
         threads = tf.train.start_queue_runners(coord=coord)
         array = sess.run(exampleBatch)
-        array1 = np.reshape(array, [10,61,501, 501])
-        for i in range(0,61):
-           plt.imshow(array1[0,i,:,:].astype(np.float32))
-           plt.show()
+        array1 = np.reshape(array, [10, 61, 501, 501])
+        for i in range(0, 61):
+            plt.imshow(array1[0, i, :, :].astype(np.float32))
+            plt.show()
 
         # print(str(labStr, encoding='utf-8'))
         # nimg = Image.fromarray(array1, mode="L")  # 这里Image是之前提到的
         # nimg.save('/home/wingsby/test.jpg')  # 存下图片
     return img
-
 
 
 # def readData(filename):

@@ -25,7 +25,7 @@ class ConvLSTMCell(object):
         self.name = name
 
     def zero_state(self, batch_size, height, width):
-        return tf.zeros([batch_size, height, width, self.hidden_num * 2])
+        return tf.zeros([batch_size, height, width, self.hidden_num ,2])
 
     def __call__(self, inputs, state, scope=None):
         """Convolutional Long short-term memory cell (ConvLSTM)."""

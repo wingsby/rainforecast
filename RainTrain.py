@@ -3,54 +3,73 @@ import numpy as np
 
 import IOUtil
 from RaniForecastModel import RainForecastModel
+import matplotlib.pyplot as plt
 
-time_step = 61
-stop_in_step = 31
+time_step = 13
+stop_in_step = 7
 learningRate = 0.001
 
 batch_size = 20
-width = 100
-height = 100
+width = 50
+height = 50
 
 out_path = '/home/wingsby/SRAD.tf'
 
-def main():
 
+def main():
     with tf.variable_scope('model', reuse=None) as training_scope:
         exampleBatch = IOUtil.readBatchData(out_path, batch_size, time_step, width, height)
         model = RainForecastModel(exampleBatch, prefix='train')
 
-    with tf.variable_scope('val_model', reuse=None):
-        valExampleBatch = IOUtil.readBatchData(out_path, batch_size, time_step, width, height)
-        val_model = RainForecastModel(valExampleBatch, prefix='val')
-
     saver = tf.train.Saver(
         tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES), max_to_keep=0)
     # Make training session.
-    sess = tf.InteractiveSession()
+    config = tf.ConfigProto(allow_soft_placement=True, log_device_placement=True)
+    config.gpu_options.allow_growth = True
+    sess = tf.Session(config=config)
+    # sess = tf.InteractiveSession()
     sess.run(tf.global_variables_initializer())
     sess.run(tf.local_variables_initializer())
     tf.train.start_queue_runners(sess)
-
-    for itr in range(100000):
+    for itr in range(10000):
         # Generate new batch of data.
-        feed_dict = {model.inputs: exampleBatch}
-        cost, _ = sess.run([model.loss, model.train_op],
-                                        feed_dict)
+        # feed_dict = {model.images: exampleBatch}
+        # imgs = sess.run(model.images)
+        # plt.imshow(imgs[0,0,:,:])
+        # plt.show()
+        cost, tnvll, hits, neg, fa, miss, hss, btt, btp = sess.run(
+            [model.loss, model.train_op, model.hits, model.neg_cor, model.fa_alm, model.miss, model.hss,
+             model.btt, model.btp])
+        # btt = tf.less(btt[0,:,:,0], 100)
+        # btp = tf.less(btp[0,:,:,0], 100)
+        # hits1, _ = tf.metrics.true_positives(btt, btp)
+        # neg_cor1,_=tf.metrics.false_negatives(btt,btp)
+        # fa_alm1,_=tf.metrics.false_positives(btt,btp)
+        # miss1,_=tf.metrics.true_negatives(btt,btp)
+        # sz=tf.size(btt,out_type=tf.float32)
+        # expCor = ((hits + miss) * (hits + fa_alm1) +(neg_cor1 + miss) * (neg_cor1 + fa_alm1))
+        # hss1 = (hits + neg_cor1 - expCor) / (sz - expCor)
+        # sess.run(hss1)
+        # print(hss1)
 
+
+        if (itr)%50==0:
+            plt.imshow(btt[0,:,:,0])
+            plt.show()
+            plt.imshow(btp[0,:,:,0])
+            plt.show()
+        if (itr) % 10 == 2:
+            print(str(itr) + ' ' + str(cost) + ' hits: ' + str(hits) + 'neg_cor: ' + str(neg) + 'fa_alm: ' + str(
+                fa) + 'miss: ' + str(miss) + 'HSS: ' + str(hss))
         # Print info: iteration #, cost.
         tf.logging.info(str(itr) + ' ' + str(cost))
-
-        if (itr) % 100 == 2:
-            # Run through validation set.
-            feed_dict = {val_model.inputs: valExampleBatch}
-            val_loss, val_summary_str = sess.run([val_model.train_op, val_model.loss],
-                                          feed_dict)
-        if (itr) % 5000 == 2:
+        # if (itr) % 100 == 2:
+        #     # Run through validation set.
+        #     feed_dict = {val_model.images: valExampleBatch}
+        #     val_loss, val_summary_str = sess.run([val_model.train_op, val_model.loss]feed_dict)
+        if (itr) % 500 == 2:
             tf.logging.info('Saving model.')
-            saver.save(sess, '/dpdata/rain.saver'+str(itr))
-
-
+            saver.save(sess, '/dpdata/rain.saver' + str(itr))
     tf.logging.info('Saving model.')
     saver.save(sess, '/dpdata/rain.saver')
     tf.logging.info('Training complete')
@@ -59,5 +78,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
