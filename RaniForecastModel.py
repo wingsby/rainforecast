@@ -10,21 +10,21 @@ time_step = 13
 stop_in_step = 7
 learningRate = 0.001
 
-batch_size = 10
+batch_size = 20
 width = 50
 height = 50
 
-hidden_units1 = 64
-kenel1 = [3, 3]
-kenel1_size = 3
+hidden_units1 = 32
+kenel1 = [5, 5]
+kenel1_size = 5
 
-hidden_units2 = 64
+hidden_units2 = 32
 kenel2 = [3, 3]
 kenel2_size = 3
 
-hidden_units3 = 64
-kenel3 = [1]
-kenel3_size = 1
+hidden_units3 = 32
+kenel3 = [3, 3]
+kenel3_size = 3
 
 
 class RainForecastModel(object):
@@ -43,15 +43,18 @@ class RainForecastModel(object):
             postImages.append(tmp)
         gen_images = self.build_model(postImages)
         # self.__train__(gen_images, postImages)
+        self.sample = gen_images[3]
+        self.sample_t = tf.slice(postImages[3 + stop_in_step], [0, 0, 0, 0], [batch_size, width, height, 1])
+        self.hits, self.neg_cor, self.fa_alm, self.miss = self.__HSS__(
+            gen_images[3],
+            tf.slice(
+                postImages[
+                    3 + stop_in_step],
+                [0, 0, 0, 0],
+                [batch_size,
+                 width, height,
+                 1]))
         self.loss, self.train_op = self.__train__(gen_images, postImages)
-        self.hits, self.neg_cor, self.fa_alm, self.miss, self.hss, self.btt, self.btp = self.__HSS__(gen_images[3],
-                                                                                                     tf.slice(
-                                                                                                         postImages[
-                                                                                                             3 + stop_in_step],
-                                                                                                         [0, 0, 0, 0],
-                                                                                                         [batch_size,
-                                                                                                          width, height,
-                                                                                                          1]))
         # return gen_images
 
     #  images tuple of image
@@ -82,6 +85,14 @@ class RainForecastModel(object):
         #                                                                                                       lstm_state1)
         # hidden3, lstm_state3 = basic_conv_lstm_cell(shape=[width, height], filters=hidden_units3, kernel=kenel1,scope='h3',reuse=True).call(hidden2,
         #                                                                                                                  lstm_state2)
+
+        # enc0 = slim.layers.conv2d(
+        #     prev_image,
+        #     32, [5, 5],
+        #     stride=2,
+        #     scope='scale1_conv1',
+        #     normalizer_fn=tf_layers.layer_norm,
+        #     normalizer_params={'scope': 'layer_norm1'})
         hidden1, lstm_state1 = basic_conv_lstm_cell(inputs, state, num_channels=hidden_units1, filter_size=kenel1_size,
                                                     scope='h1', reuse=tf.AUTO_REUSE)
         hidden2, lstm_state2 = basic_conv_lstm_cell(hidden1, lstm_state1, num_channels=hidden_units2,
@@ -105,6 +116,8 @@ class RainForecastModel(object):
         # ttrue=tf.slice(true,[0,stop_in_step - 1,0,0],[batch_size,time_step-1,width,height])
         # tpred=tf.slice(pred,[0,stop_in_step,0,0],[batch_size,time_step,width,height])
         # 生成boolean类型
+
+        self.sz = tf.size(pred)
         btt = tf.less(true, 100)
         btp = tf.less(pred, 100)
 
@@ -112,11 +125,12 @@ class RainForecastModel(object):
         _, hits = tf.metrics.true_positives(btt, btp)
         _, fa_alm = tf.metrics.false_positives(btt, btp)
         _, miss = tf.metrics.true_negatives(btt, btp)
-        sz = tf.size(btt, out_type=tf.float32)
-        expCor = ((hits + miss) * (hits + fa_alm) + (neg_cor + miss) * (neg_cor + fa_alm))
-        hss = (hits + neg_cor - expCor) / (sz - expCor)
+        sz = tf.size(pred, out_type=tf.float32)
+        # expCor = ((hits + miss+0.0) * (hits + fa_alm) + (neg_cor + miss+0.0) * (neg_cor + fa_alm))/sz
+        # hss = (hits + neg_cor - expCor+0.0) / (sz - expCor)
         # print(str(hits)+" "+str(neg_cor)+" "+str(miss)+" "+str(fa_alm)+" "+str(hss))
-        return hits, neg_cor, fa_alm, miss, hss, true, pred
+
+        return hits, neg_cor, fa_alm, miss
 
     def __train__(self, gen_images, inputs):
         loss = 0.0

@@ -37,9 +37,8 @@ def main():
         # imgs = sess.run(model.images)
         # plt.imshow(imgs[0,0,:,:])
         # plt.show()
-        cost, tnvll, hits, neg, fa, miss, hss, btt, btp = sess.run(
-            [model.loss, model.train_op, model.hits, model.neg_cor, model.fa_alm, model.miss, model.hss,
-             model.btt, model.btp])
+        cost, tnvll, hits, neg, fa, miss, sz,sample,sample_t= sess.run(
+            [model.loss, model.train_op, model.hits, model.neg_cor, model.fa_alm, model.miss, model.sz,model.sample,model.sample_t])
         # btt = tf.less(btt[0,:,:,0], 100)
         # btp = tf.less(btp[0,:,:,0], 100)
         # hits1, _ = tf.metrics.true_positives(btt, btp)
@@ -51,23 +50,24 @@ def main():
         # hss1 = (hits + neg_cor1 - expCor) / (sz - expCor)
         # sess.run(hss1)
         # print(hss1)
-
-
-        if (itr)%50==0:
-            plt.imshow(btt[0,:,:,0])
+        expCor = ((hits + miss) * (hits + fa) + (neg + miss) * (neg + fa))/(sz+sz*itr)
+        hss = (hits + neg - expCor) / (sz+sz*itr - expCor)
+        if (itr)%2000==0:
+            plt.imshow(sample[0,:,:,0])
             plt.show()
-            plt.imshow(btp[0,:,:,0])
+            plt.imshow(sample_t[0,:,:,0])
             plt.show()
-        if (itr) % 10 == 2:
+            print(str(cost))
+        if (itr) % 50 == 2:
             print(str(itr) + ' ' + str(cost) + ' hits: ' + str(hits) + 'neg_cor: ' + str(neg) + 'fa_alm: ' + str(
-                fa) + 'miss: ' + str(miss) + 'HSS: ' + str(hss))
-        # Print info: iteration #, cost.
+                fa) + 'miss: ' + str(miss) + 'HSS: ' + str(hss)+' expec:'+str(expCor)+"sz: "+str(sz))
+        # Print info: iteration #, cost.::
         tf.logging.info(str(itr) + ' ' + str(cost))
         # if (itr) % 100 == 2:
         #     # Run through validation set.
         #     feed_dict = {val_model.images: valExampleBatch}
         #     val_loss, val_summary_str = sess.run([val_model.train_op, val_model.loss]feed_dict)
-        if (itr) % 500 == 2:
+        if (itr) % 1000 == 999:
             tf.logging.info('Saving model.')
             saver.save(sess, '/dpdata/rain.saver' + str(itr))
     tf.logging.info('Saving model.')

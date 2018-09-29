@@ -46,9 +46,9 @@ def writeData():
             if (cnt > 1000):
                 cnt = 9999
                 break
-
     writer.close()
     # return outfeature
+
 
 
 def readBatchData(filename, batchsize, seq_length, width, height):
@@ -68,7 +68,7 @@ def readBatchData(filename, batchsize, seq_length, width, height):
         # tmp = tf.image.resize_image_with_crop_or_pad(tmp, oheight, owidth)
         tmp = tf.reshape(tmp, [1, oheight, owidth, 1])
         tmp = tf.image.resize_bicubic(tmp, [height, width])
-        tmp = tf.cast(tmp, tf.float32) / 255
+        tmp = tf.cast(tmp, tf.float32)
         img.append(tmp)
     img = tf.reshape(img, [seq_length, width, height])
     exampleBatch = tf.train.shuffle_batch([img], batch_size=batchsize, capacity=100, min_after_dequeue=20)
@@ -161,6 +161,8 @@ def testRead(filename):  # 读入dog_train.tfrecords
 #     array1 = np.reshape(array, [61, 501, 501])
 #     plt.imshow(array1[0, :, :].astype(np.float32))
 #     plt.show()
+
+
 
 
 from scipy.misc import imread

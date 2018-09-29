@@ -1,0 +1,72 @@
+import numpy as np
+from PIL import Image
+from scipy.misc import imread
+from matplotlib import pyplot as plt
+
+forecast_path = '/dpdata/SRAD2018_Test_2/'
+data_path = '/data/SRAD/'
+
+
+def image_read(file_path):
+    image = imread(file_path)
+    return image
+
+
+def getInd(data, color, delta):
+    cond = np.logical_and(np.logical_and(np.logical_and(data // 1000000 - color[0] >= -delta, data // 1000000 - color[0] <= delta),
+                          np.logical_and(data // 1000 % 1000 - color[1] >= -delta,
+                                         data // 1000 % 1000 - color[1] <= delta)),
+                          np.logical_and(data % 1000 - color[2] >= -delta, data % 1000 - color[2] <= delta))
+    ind = np.where(cond)
+    return ind
+
+
+def setNewColor(data, ind, color):
+    data[:, :, 0][ind] = color[0]
+    data[:, :, 1][ind] = color[1]
+    data[:, :, 2][ind] = color[2]
+    return data
+
+
+file_path = '/dpdata/1.PNG'
+image = imread(file_path)
+
+fig = plt.figure()
+# plt.imshow(image[280:700,650:675,1])
+plt.imshow(image[295:615, 650:680, 1])
+plt.show()
+# ind1=np.where(image[:,:,0]==173)
+# ind2=np.where(image[:,:,1]==173)
+# ind3=np.where(image[:,:,2]==)
+# image[:,:,0][ind1]=220
+timage = image.astype(np.int64)
+timage[:, :, 0] = timage[:, :, 0] * 1000000
+timage[:, :, 1] = timage[:, :, 1] * 1000
+wim = np.sum(timage, 2)
+
+data = [(173, 144, 240), (120, 0, 132), (255, 0, 240), (192, 0, 0),
+        (214, 0, 0), (255, 0, 0), (255, 144, 0), (231, 192, 0),
+        (255, 255, 0), (1, 144, 0), (0, 200, 0), (1, 255, 0),
+        (0, 236, 236), (1, 160, 246), (0, 0, 246)]
+# data = [ (1, 160, 246) ]
+# find=[]
+
+newImage = np.ones(image.shape) * 255
+for color in data:
+    ind = getInd(wim, color, 30)
+    if ind:
+        newImage = setNewColor(newImage, ind, color)
+        # newImage[:, :, 0][ind] = image[:, :, 0][ind]
+        # newImage[:, :, 1][ind] = image[:, :, 1][ind]
+        # newImage[:, :, 2][ind] = image[:, :, 2][ind]
+
+# image[:,:,0][not ind]=255
+# image[:,:,1][not ind]=255
+# image[:,:,2][not ind]=255
+newImage=newImage.astype(np.uint8)
+plt.imsave('/dpdata/4.PNG', newImage)
+
+print(image)
+
+# print(image[0:10,0:10,:])
+# print(image.shape)

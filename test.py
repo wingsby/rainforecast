@@ -10,8 +10,8 @@ import re
 from PIL import Image
 # import tensorflow as tf
 
-data_path='/dpdata/SRAD2018_Test_1/'
-out_path='/dpdata/SRAD2018_FORECAST/'
+data_path='/dpdata/SRAD2018_Test_2/'
+out_path='/dpdata/SRAD2018_FORECAST2/'
 
 for root, dirs, filenames in os.walk(data_path):
     for sub in dirs:  # 遍历filenames读取图片
