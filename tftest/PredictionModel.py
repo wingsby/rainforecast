@@ -14,6 +14,7 @@
 # ==============================================================================
 
 """Model architecture for predictive model, including CDNA, DNA, and STP."""
+import time
 
 import numpy as np
 import tensorflow as tf
@@ -33,10 +34,10 @@ DNA_KERN_SIZE = 5
 
 # images: 一次60张图
 # index:从什么时候开始预测
-def construct_model(images, index, dna, cdna, num_masks=10):
+def forward(images, index, dna, cdna, num_masks=10, reuse=None):
+    stime = time.time()
     batch_size, img_height, img_width = images[0].get_shape()[0:3]
     lstm_func = basic_conv_lstm_cell
-
     # Generated robot states and images.
     gen_images = []
     lstm_size = np.int32(np.array([32, 32, 64, 64, 128, 64, 32]))
@@ -45,12 +46,13 @@ def construct_model(images, index, dna, cdna, num_masks=10):
 
     for i in range(images.__len__()):
         # Reuse variables after the first timestep.
-        reuse = (i>0)
+        if i > 0:
+            reuse = True
         with slim.arg_scope(
                 [lstm_func, slim.layers.conv2d, slim.layers.fully_connected,
                  tf_layers.layer_norm, slim.layers.conv2d_transpose],
                 reuse=reuse):
-            if reuse and i > index:
+            if i > index:
                 prev_image = tf.reshape(gen_images[-1], [batch_size, img_height, img_width, 1])
             else:
                 prev_image = tf.reshape(images[i], [batch_size, img_height, img_width, 1])
@@ -80,16 +82,13 @@ def construct_model(images, index, dna, cdna, num_masks=10):
             hidden4 = tf_layers.layer_norm(hidden4, scope='layer_norm5')
             enc2 = slim.layers.conv2d(
                 hidden4, hidden4.get_shape()[3], [3, 3], stride=2, scope='conv3')
-
             enc3 = slim.layers.conv2d(
                 enc2, hidden4.get_shape()[3], [1, 1], stride=1, scope='conv4')
-
             hidden5, lstm_state5 = lstm_func(
                 enc3, lstm_state5, lstm_size[4], scope='state5')  # last 8x8
             hidden5 = tf_layers.layer_norm(hidden5, scope='layer_norm6')
             enc4 = slim.layers.conv2d_transpose(
                 hidden5, hidden5.get_shape()[3], 3, stride=2, scope='convt1')
-
             hidden6, lstm_state6 = lstm_func(
                 enc4, lstm_state6, lstm_size[5], scope='state6')  # 16x16
             hidden6 = tf_layers.layer_norm(hidden6, scope='layer_norm7')
@@ -110,7 +109,6 @@ def construct_model(images, index, dna, cdna, num_masks=10):
                 hidden7.get_shape()[3], 3, stride=2, scope='convt3',
                 normalizer_fn=tf_layers.layer_norm,
                 normalizer_params={'scope': 'layer_norm9'})
-
             if dna:
                 # Using largest hidden state for predicting untied conv kernels.
                 enc7 = slim.layers.conv2d_transpose(
@@ -143,6 +141,8 @@ def construct_model(images, index, dna, cdna, num_masks=10):
                 output += layer * mask
             if (i > index - 1):
                 gen_images.append(output)
+        # print(gen_images.name)
+    print(time.time() - stime)
     return gen_images
 
 

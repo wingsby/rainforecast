@@ -1,0 +1,68 @@
+2018-11-01 09:26:12.581940: I tensorflow/core/platform/cpu_feature_guard.cc:140] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+2018-11-01 09:26:12.704473: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:898] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-11-01 09:26:12.705011: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1356] Found device 0 with properties: 
+name: GeForce GTX 1070 Ti major: 6 minor: 1 memoryClockRate(GHz): 1.683
+pciBusID: 0000:01:00.0
+totalMemory: 7.93GiB freeMemory: 7.58GiB
+2018-11-01 09:26:12.815767: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:898] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-11-01 09:26:12.816368: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1356] Found device 1 with properties: 
+name: GeForce GTX 1070 Ti major: 6 minor: 1 memoryClockRate(GHz): 1.683
+pciBusID: 0000:02:00.0
+totalMemory: 7.93GiB freeMemory: 7.81GiB
+2018-11-01 09:26:12.817071: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1435] Adding visible gpu devices: 0, 1
+2018-11-01 09:26:13.155672: I tensorflow/core/common_runtime/gpu/gpu_device.cc:923] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-11-01 09:26:13.155708: I tensorflow/core/common_runtime/gpu/gpu_device.cc:929]      0 1 
+2018-11-01 09:26:13.155719: I tensorflow/core/common_runtime/gpu/gpu_device.cc:942] 0:   N Y 
+2018-11-01 09:26:13.155725: I tensorflow/core/common_runtime/gpu/gpu_device.cc:942] 1:   Y N 
+2018-11-01 09:26:13.156007: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1053] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 7317 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1070 Ti, pci bus id: 0000:01:00.0, compute capability: 6.1)
+2018-11-01 09:26:13.156447: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1053] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:1 with 7547 MB memory) -> physical GPU (device: 1, name: GeForce GTX 1070 Ti, pci bus id: 0000:02:00.0, compute capability: 6.1)
+2018-11-01 09:51:37.598656: I tensorflow/core/platform/cpu_feature_guard.cc:140] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+2018-11-01 09:51:37.710058: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:898] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-11-01 09:51:37.710564: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1356] Found device 0 with properties: 
+name: GeForce GTX 1070 Ti major: 6 minor: 1 memoryClockRate(GHz): 1.683
+pciBusID: 0000:01:00.0
+totalMemory: 7.93GiB freeMemory: 75.06MiB
+2018-11-01 09:51:37.799922: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:898] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-11-01 09:51:37.800483: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1356] Found device 1 with properties: 
+name: GeForce GTX 1070 Ti major: 6 minor: 1 memoryClockRate(GHz): 1.683
+pciBusID: 0000:02:00.0
+totalMemory: 7.93GiB freeMemory: 125.56MiB
+2018-11-01 09:51:37.800591: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1435] Adding visible gpu devices: 0, 1
+2018-11-01 09:51:38.636737: I tensorflow/core/common_runtime/gpu/gpu_device.cc:923] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-11-01 09:51:38.636788: I tensorflow/core/common_runtime/gpu/gpu_device.cc:929]      0 1 
+2018-11-01 09:51:38.636824: I tensorflow/core/common_runtime/gpu/gpu_device.cc:942] 0:   N Y 
+2018-11-01 09:51:38.636833: I tensorflow/core/common_runtime/gpu/gpu_device.cc:942] 1:   Y N 
+TensorBoard 1.8.0 at http://localhost.localdomain:6006 (Press CTRL+C to quit)
+W1101 09:51:50.013671 Thread-10 application.py:274] path /[[_dataImageSrc]] not found, sending 404
+W1101 09:51:50.018364 Thread-11 application.py:274] path /[[_imageURL]] not found, sending 404
+ERROR:tensorflow:Exception in QueueRunner: Invalid PNG data, size 65564
+	 [[Node: model/DecodePng_29 = DecodePng[channels=1, dtype=DT_UINT8, _device="/job:localhost/replica:0/task:0/device:CPU:0"](model/ParseSingleExample/ParseSingleExample:29)]]
+W1101 10:20:37.272984 Thread-245 application.py:274] path /[[_dataImageSrc]] not found, sending 404
+W1101 10:20:37.740329 Thread-245 application.py:274] path /[[_imageURL]] not found, sending 404
+2018-11-01 10:40:16.614764: I tensorflow/core/platform/cpu_feature_guard.cc:140] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+2018-11-01 10:40:16.718376: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:898] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-11-01 10:40:16.718892: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1356] Found device 0 with properties: 
+name: GeForce GTX 1070 Ti major: 6 minor: 1 memoryClockRate(GHz): 1.683
+pciBusID: 0000:01:00.0
+totalMemory: 7.93GiB freeMemory: 57.69MiB
+2018-11-01 10:40:16.879875: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:898] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-11-01 10:40:16.880605: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1356] Found device 1 with properties: 
+name: GeForce GTX 1070 Ti major: 6 minor: 1 memoryClockRate(GHz): 1.683
+pciBusID: 0000:02:00.0
+totalMemory: 7.93GiB freeMemory: 125.56MiB
+2018-11-01 10:40:16.880776: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1435] Adding visible gpu devices: 0, 1
+2018-11-01 10:40:17.057019: E tensorflow/core/common_runtime/direct_session.cc:154] Internal: CUDA runtime implicit initialization on GPU:0 failed. Status: out of memory
+Constructing models and inputs.
+13.729276895523071
+13.604734420776367
+Constructing saver.
+Traceback (most recent call last):
+  File "prediction_train.py", line 285, in <module>
+    main()
+  File "prediction_train.py", line 253, in main
+    sess = tf.InteractiveSession(config=config)
+  File "/home/wingsby/.conda/envs/wingsby/lib/python3.6/site-packages/tensorflow/python/client/session.py", line 1708, in __init__
+    super(InteractiveSession, self).__init__(target, graph, config)
+  File "/home/wingsby/.conda/envs/wingsby/lib/python3.6/site-packages/tensorflow/python/client/session.py", line 633, in __init__
+    self._session = tf_session.TF_NewSession(self._graph._c_graph, opts)
+tensorflow.python.framework.errors_impl.InternalError: Failed to create session.

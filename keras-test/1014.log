@@ -1,0 +1,29 @@
+  File "kerasModel_reverse.py", line 218
+    model.add(Lambda(lambda x: x[:, -1 * frames:, :,:,:]))
+    ^
+SyntaxError: invalid syntax
+2018-10-14 12:37:23.283390: I tensorflow/core/platform/cpu_feature_guard.cc:140] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+2018-10-14 12:37:23.896155: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:898] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-10-14 12:37:23.896719: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1356] Found device 0 with properties: 
+name: GeForce GTX 1070 Ti major: 6 minor: 1 memoryClockRate(GHz): 1.683
+pciBusID: 0000:01:00.0
+totalMemory: 7.93GiB freeMemory: 7.81GiB
+2018-10-14 12:37:23.970616: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:898] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-10-14 12:37:23.971115: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1356] Found device 1 with properties: 
+name: GeForce GTX 1070 Ti major: 6 minor: 1 memoryClockRate(GHz): 1.683
+pciBusID: 0000:02:00.0
+totalMemory: 7.93GiB freeMemory: 7.81GiB
+2018-10-14 12:37:23.971801: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1435] Adding visible gpu devices: 0, 1
+2018-10-14 12:37:24.319996: I tensorflow/core/common_runtime/gpu/gpu_device.cc:923] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-10-14 12:37:24.320048: I tensorflow/core/common_runtime/gpu/gpu_device.cc:929]      0 1 
+2018-10-14 12:37:24.320059: I tensorflow/core/common_runtime/gpu/gpu_device.cc:942] 0:   N Y 
+2018-10-14 12:37:24.320071: I tensorflow/core/common_runtime/gpu/gpu_device.cc:942] 1:   Y N 
+2018-10-14 12:37:24.320329: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1053] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 7546 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1070 Ti, pci bus id: 0000:01:00.0, compute capability: 6.1)
+2018-10-14 12:37:24.320982: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1053] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:1 with 7549 MB memory) -> physical GPU (device: 1, name: GeForce GTX 1070 Ti, pci bus id: 0000:02:00.0, compute capability: 6.1)
+2018-10-14 12:37:24.322283: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1435] Adding visible gpu devices: 0, 1
+2018-10-14 12:37:24.322330: I tensorflow/core/common_runtime/gpu/gpu_device.cc:923] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-10-14 12:37:24.322343: I tensorflow/core/common_runtime/gpu/gpu_device.cc:929]      0 1 
+2018-10-14 12:37:24.322350: I tensorflow/core/common_runtime/gpu/gpu_device.cc:942] 0:   N Y 
+2018-10-14 12:37:24.322357: I tensorflow/core/common_runtime/gpu/gpu_device.cc:942] 1:   Y N 
+2018-10-14 12:37:24.322537: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1053] Created TensorFlow device (/device:GPU:0 with 7546 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1070 Ti, pci bus id: 0000:01:00.0, compute capability: 6.1)
+2018-10-14 12:37:24.322633: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1053] Created TensorFlow device (/device:GPU:1 with 7549 MB memory) -> physical GPU (device: 1, name: GeForce GTX 1070 Ti, pci bus id: 0000:02:00.0, compute capability: 6.1)

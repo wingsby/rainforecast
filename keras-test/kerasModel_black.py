@@ -34,7 +34,7 @@ X_std = 50.
 X_mean = 60.
 
 my_height = 3
-batch_size = 14
+batch_size = 12
 parallel_gpu = 2
 nb_epoch = 30
 # forecast_path='/dpdata/SRAD2018_Test_2/'

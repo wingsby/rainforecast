@@ -12,41 +12,51 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
+import sys
 
-"""Code for training the prediction model."""
+sys.path.extend(['/home/wingsby/develop/python/rainforecast'])
+# solve cannot import local package
 import os
 
 import numpy as np
-
 import IOUtil
 import tensorflow as tf
 
-# How often to record tensorboard summaries.
-from tftest.PredictionModel import construct_model
 
-SUMMARY_INTERVAL = 40
+# How often to record tensorboard summaries.
+from tftest.PredictionModel import forward
+
+SUMMARY_INTERVAL = 100
 
 # How often to run a batch through the validation model.
 VAL_INTERVAL = 200
 
 # How often to save a model checkpoint
-SAVE_INTERVAL = 10
+# SAVE_INTERVAL = 2000
 
 # tf record data location:
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
-config = tf.ConfigProto()
-config.gpu_options.allow_growth = True
+
 # local output directory
 OUT_DIR = '/home/wingsby/test'
-num_iterations = 100
+num_iterations = 5000
 event_log_dir = '/home/wingsby/test'
 sequence_length = 61
 index = 30
 
-batch_size = 8
-learning_rate = 0.001
-width, height = 40, 40
-data_path = '/home/wingsby/SRAD.tf'
+# batch_size = 8
+single_batch_size = 10
+learning_rate = 0.0001
+width, height = 64, 64
+data_path = '/data/SRAD'
+val_data_path='/data/SRAD10.tf'
+RELU_SHIFT = 1e-12
+DNA_KERN_SIZE = 5
+
+os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
+config = tf.ConfigProto()
+config.gpu_options.allow_growth = True
+num_gpus = 2
+epoch = 100
 
 
 ## Helper functions
@@ -74,122 +84,206 @@ def mean_squared_error(true, pred):
     return tf.reduce_sum(tf.square(true - pred)) / tf.to_float(tf.size(pred))
 
 
-class Model(object):
+def average_gradients(tower_grads):
+    average_grads = []
+    for grad_and_vars in zip(*tower_grads):
+        # Note that each grad_and_vars looks like the following:
+        #   ((grad0_gpu0, var0_gpu0), ... , (grad0_gpuN, var0_gpuN))
+        grads = []
+        try:
+            for g, var in grad_and_vars:
+                # Add 0 dimension to the gradients to represent the tower.
+                expanded_g = tf.expand_dims(g, 0)
 
-    def __init__(self,
-                 images=None,
-                 sequence_length=None,
-                 prefix=None,
-                 reuse_scope=None):
+                # Append on a 'tower' dimension which we will average over below.
+                grads.append(expanded_g)
+        except:
+            print("")
+        # Average over the 'tower' dimension.
+        grad = tf.concat(grads, 0)
+        grad = tf.reduce_mean(grad, 0)
 
+        # Keep in mind that the Variables are redundant because they are shared
+        # across towers. So .. we will just return the first tower's pointer to
+        # the Variable.
+        v = grad_and_vars[0][1]
+        grad_and_var = (grad, v)
+        average_grads.append(grad_and_var)
+    return average_grads
+
+
+PS_OPS = ['Variable', 'VariableV2', 'AutoReloadVariable']
+
+
+def assign_to_device(device, ps_device='/cpu:0'):
+    def _assign(op):
+        node_def = op if isinstance(op, tf.NodeDef) else op.node_def
+        if node_def.op in PS_OPS:
+            return "/" + ps_device
+        else:
+            return device
+
+    return _assign
+
+
+def train(images=None,
+          sequence_length=None,
+          prefix=None,
+          reuse_scope=None):
+    with tf.device('/cpu:0'):
+        tower_grads = []
+        summaries = []
         if sequence_length is None:
             sequence_length = sequence_length
-
-        # if prefix is None:
-        #     prefix = tf.placeholder(tf.string, [])
-        self.iter_num = tf.placeholder(tf.float32, [])
-        summaries = []
-
+        if prefix is None:
+            prefix = tf.placeholder(tf.string, [])
+        iter_num = tf.placeholder(tf.float32, [])
         # Split into timesteps.
-        images = tf.split(axis=1, num_or_size_splits=int(images.get_shape()[1]), value=images)
-        images = [tf.squeeze(img) for img in images]
+        reuse_vars = False
+        for i in range(num_gpus):
+            # with tf.device('/gpu:%d' % i):
+            with tf.device(assign_to_device('/gpu:{}'.format(i), ps_device='/cpu:0')):
+                # with tf.name_scope('GPU_%d' % i) as scope:
+                single_images = images[i * single_batch_size:(i + 1) * single_batch_size]
+                single_images = tf.split(axis=1, num_or_size_splits=int(single_images.get_shape()[1]),
+                                         value=single_images)
+                single_images = [tf.squeeze(img) for img in single_images]
+                # if scope is None:
+                gen_images = forward(
+                    single_images,
+                    30, cdna=True, dna=False, reuse=reuse_vars)
+                # output = tf.reshape(gen_images, [31, batch_size, height, width, 1])
+                # tf.add_to_collection('pred_network', output)
+                output = gen_images
+                # else:  # If it's a validation or test model.
+                #     with tf.variable_scope(reuse_scope, reuse=True):
+                #         gen_images = forward(
+                #             single_images,
+                #             30, cdna=True, dna=False)
+                #         # output = tf.reshape(gen_images, [31, batch_size, height, width, 1])
+                #         # tf.add_to_collection('pred_network', output)
+                #         output = gen_images
+                # L2 loss, PSNR for eval.
+                loss, psnr_all = 0.0, 0.0
+                for ii, x, gx in zip(
+                        range(len(gen_images)), single_images[index:],
+                        gen_images):
+                    x = tf.reshape(x, [single_batch_size, height, width, 1])
+                    recon_cost = mean_squared_error(x, gx)
+                    psnr_i = peak_signal_to_noise_ratio(x, gx)
+                    psnr_all += psnr_i
+                    loss += recon_cost
+                    # summaries.append(
+                    #     tf.summary.scalar(prefix + '_recon_cost' + str(ii), recon_cost))
+                    # summaries.append(tf.summary.scalar(prefix + '_psnr' + str(ii), psnr_i))
 
-        if reuse_scope is None:
-            gen_images = construct_model(
-                images,
-                30, cdna=True, dna=False)
-            self.output = gen_images
-        else:  # If it's a validation or test model.
-            with tf.variable_scope(reuse_scope, reuse=True):
-                gen_images = construct_model(
-                    images,
-                    30, cdna=True, dna=False)
-                self.output = gen_images
-        # L2 loss, PSNR for eval.
-        loss, psnr_all = 0.0, 0.0
-        for i, x, gx in zip(
-                range(len(gen_images)), images[index:],
-                gen_images):
-            x = tf.reshape(x, [batch_size, height, width, 1])
-            recon_cost = mean_squared_error(x, gx)
-            psnr_i = peak_signal_to_noise_ratio(x, gx)
-            psnr_all += psnr_i
-            # summaries.append(
-            #     tf.summary.scalar('_recon_cost' + str(i), recon_cost))
-            # summaries.append(tf.summary.scalar('_psnr' + str(i), psnr_i))
-            loss += recon_cost
+                psnr_all = psnr_all
+                # loss = loss = loss / np.float32(len(gen_images))
+                loss = loss
+                lr = tf.placeholder_with_default(learning_rate, ())
+                optimizer = tf.train.AdamOptimizer(lr)
+                grads = optimizer.compute_gradients(loss)
+                tower_grads.append(grads)
+                reuse_vars = True
+                # tf.summary.scalar(prefix + '_psnr_all', psnr_all)
+                # tf.summary.scalar(prefix + '_loss', loss)
+                # summaries = tf.get_collection(tf.GraphKeys.SUMMARIES)
 
-        # summaries.append(tf.summary.scalar('_psnr_all', psnr_all))
-        self.psnr_all = psnr_all
+        tower_grads = average_gradients(tower_grads)
+        train_op = optimizer.apply_gradients(tower_grads)
+        summaries.append(tf.summary.scalar('loss', loss))
+        summaries.append(tf.summary.scalar('learning_rate', lr))
+        summ_op = tf.summary.merge(summaries)
+        return output, train_op, lr, loss, psnr_all, summ_op
 
-        self.loss = loss = loss / np.float32(len(gen_images))
 
-        # summaries.append(tf.summary.scalar('_loss', loss))
-
-        self.lr = tf.placeholder_with_default(learning_rate, ())
-
-        self.train_op = tf.train.AdamOptimizer(self.lr).minimize(loss)
-        # self.summ_op = tf.summary.merge(summaries)
-
+def predict(images=None,
+            sequence_length=None,
+            prefix=None):
+    if sequence_length is None:
+        sequence_length = sequence_length
+    if prefix is None:
+        prefix = tf.placeholder(tf.string, [])
+    iter_num = tf.placeholder(tf.float32, [])
+    # Split into timesteps.
+    reuse_vars = False
+    # with tf.name_scope('GPU_%d' % i) as scope:
+    single_images = images[0: single_batch_size]
+    single_images = tf.split(axis=1, num_or_size_splits=int(single_images.get_shape()[1]),
+                             value=single_images)
+    single_images = [tf.squeeze(img) for img in single_images]
+    # if scope is None:
+    gen_images = forward(
+        single_images,
+        30, cdna=True, dna=False, reuse=reuse_vars)
+    output = gen_images
+    # L2 loss, PSNR for eval.
+    loss, psnr_all = 0.0, 0.0
+    for ii, x, gx in zip(
+            range(len(gen_images)), single_images[index:],
+            gen_images):
+        x = tf.reshape(x, [single_batch_size, height, width, 1])
+        recon_cost = mean_squared_error(x, gx)
+        psnr_i = peak_signal_to_noise_ratio(x, gx)
+        psnr_all += psnr_i
+        loss += recon_cost
+    lr = tf.placeholder_with_default(learning_rate, ())
+    loss = loss = loss / np.float32(len(gen_images))
+    return output, loss, lr
 
 
 def main():
     print('Constructing models and inputs.')
     with tf.variable_scope('model', reuse=None) as training_scope:
-        images = IOUtil.readBatchData(data_path, batch_size, sequence_length, width, height)
-        model = Model(images, sequence_length,
-                      prefix='train')
+        idxlist=[1,2,3,4,5,6,9,10,11,12,13,14,15,16]
+        files=[]
+        for i in idxlist:
+           files.append(data_path+('%d.tf'%i))
+        images = IOUtil.readBatchData(files, single_batch_size * num_gpus, sequence_length, width, height)
+        output, train_op, lr, loss, psnr_all, summ_op = train(images, sequence_length,
+                                                              prefix='train')
 
-    with tf.variable_scope('val_model', reuse=None):
-        val_images = IOUtil.readBatchData(data_path, batch_size, sequence_length, width, height)
-        val_model = Model(val_images,
-                          sequence_length, prefix='val')
+    # with tf.variable_scope('val_model', reuse=None):
+    #     val_images = IOUtil.readBatchData(val_data_path, single_batch_size * num_gpus, sequence_length, width, height)
+    #     val_output, val_train_op, val_lr, val_loss, val_psnr_all, val_summ_op = train(images, sequence_length,
+    #                                                           prefix='val')
 
     print('Constructing saver.')
     # Make saver.
     saver = tf.train.Saver(
         tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES), max_to_keep=0)
-
     # Make training session.
-    sess = tf.InteractiveSession()
+    sess = tf.InteractiveSession(config=config)
     sess.run(tf.global_variables_initializer())
-
-    # summary_writer = tf.summary.FileWriter(
-    #     event_log_dir, graph=sess.graph, flush_secs=10)
-
-    # if FLAGS.pretrained_model:
-    #   saver.restore(sess, FLAGS.pretrained_model)
-
+    summary_writer = tf.summary.FileWriter(
+        event_log_dir, graph=sess.graph, flush_secs=10)
+    coord = tf.train.Coordinator()
     tf.train.start_queue_runners(sess)
-
     tf.logging.info('iteration number, cost')
-
     # Run training.
-    for itr in range(num_iterations):
-        # Generate new batch of data.
-        feed_dict = {model.iter_num: np.float32(itr),
-                     model.lr: learning_rate}
-        # cost, _, summary_str = sess.run([model.loss, model.train_op, model.summ_op],
-        #                                 feed_dict)
-        cost, _ = sess.run([model.loss, model.train_op],
-                                        feed_dict)
+    for epoch_itr in range(epoch):
+        for itr in range(num_iterations):
+            try:
+                # Generate new batch of data.
+                if coord.should_stop():
+                     print('cord stop')
+                     break
+                images_data = sess.run(images)
+                feed_dict = {images: images_data,
+                             lr: learning_rate}
+                
+                cost, summary_str, _ = sess.run([loss, summ_op, train_op],
+                                                feed_dict=feed_dict)
+                if (itr) % SUMMARY_INTERVAL==0:
+                    summary_writer.add_summary(summary_str, itr)
+                    print("第%d轮,%d次"%(epoch_itr,itr))
+            except Exception as e:
+                #coord.request_stop():
+                print('图像发生错误')
+                continue
 
-        # Print info: iteration #, cost.
-        tf.logging.info(str(itr) + ' ' + str(cost))
-
-        # if (itr) % VAL_INTERVAL == 2:
-        #     # Run through validation set.
-        #     feed_dict = {val_model.lr: 0.0,
-        #                  val_model.iter_num: np.float32(itr)}
-        #     # _, val_summary_str = sess.run([val_model.train_op, val_model.summ_op],
-        #     #                               feed_dict)
-        #     _, val_summary_str = sess.run([val_model.train_op],
-        #                                   feed_dict)
-        #     # summary_writer.add_summary(val_summary_str, itr)
-
-        if (itr) % SAVE_INTERVAL == 2:
-            tf.logging.info('Saving model.')
-            saver.save(sess, OUT_DIR + '/model' + str(itr))
+        tf.logging.info('Saving model.')
+        saver.save(sess, OUT_DIR + '/model' + str(epoch_itr))
 
     tf.logging.info('Saving model.')
     saver.save(sess, OUT_DIR + '/model')

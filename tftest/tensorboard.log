@@ -1,0 +1,109 @@
+2018-11-01 10:39:34.252230: I tensorflow/core/platform/cpu_feature_guard.cc:140] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+2018-11-01 10:39:34.335306: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:898] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-11-01 10:39:34.335837: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1356] Found device 0 with properties: 
+name: GeForce GTX 1070 Ti major: 6 minor: 1 memoryClockRate(GHz): 1.683
+pciBusID: 0000:01:00.0
+totalMemory: 7.93GiB freeMemory: 57.56MiB
+2018-11-01 10:39:34.416364: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:898] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-11-01 10:39:34.416833: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1356] Found device 1 with properties: 
+name: GeForce GTX 1070 Ti major: 6 minor: 1 memoryClockRate(GHz): 1.683
+pciBusID: 0000:02:00.0
+totalMemory: 7.93GiB freeMemory: 125.56MiB
+2018-11-01 10:39:34.416934: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1435] Adding visible gpu devices: 0, 1
+2018-11-01 10:39:34.599803: E tensorflow/core/common_runtime/direct_session.cc:154] Internal: CUDA runtime implicit initialization on GPU:0 failed. Status: out of memory
+Traceback (most recent call last):
+  File "/home/wingsby/.conda/envs/wingsby/bin/tensorboard", line 11, in <module>
+    sys.exit(run_main())
+  File "/home/wingsby/.conda/envs/wingsby/lib/python3.6/site-packages/tensorboard/main.py", line 36, in run_main
+    tf.app.run(main)
+  File "/home/wingsby/.conda/envs/wingsby/lib/python3.6/site-packages/tensorflow/python/platform/app.py", line 126, in run
+    _sys.exit(main(argv))
+  File "/home/wingsby/.conda/envs/wingsby/lib/python3.6/site-packages/tensorboard/main.py", line 45, in main
+    default.get_assets_zip_provider())
+  File "/home/wingsby/.conda/envs/wingsby/lib/python3.6/site-packages/tensorboard/program.py", line 166, in main
+    tb = create_tb_app(plugins, assets_zip_provider)
+  File "/home/wingsby/.conda/envs/wingsby/lib/python3.6/site-packages/tensorboard/program.py", line 201, in create_tb_app
+    flags=FLAGS)
+  File "/home/wingsby/.conda/envs/wingsby/lib/python3.6/site-packages/tensorboard/backend/application.py", line 126, in standard_tensorboard_wsgi
+    plugin_instances = [constructor(context) for constructor in plugins]
+  File "/home/wingsby/.conda/envs/wingsby/lib/python3.6/site-packages/tensorboard/backend/application.py", line 126, in <listcomp>
+    plugin_instances = [constructor(context) for constructor in plugins]
+  File "/home/wingsby/.conda/envs/wingsby/lib/python3.6/site-packages/tensorboard/plugins/beholder/beholder_plugin.py", line 47, in __init__
+    self.most_recent_frame = im_util.get_image_relative_to_script('no-data.png')
+  File "/home/wingsby/.conda/envs/wingsby/lib/python3.6/site-packages/tensorboard/plugins/beholder/im_util.py", line 254, in get_image_relative_to_script
+    return read_image(filename)
+  File "/home/wingsby/.conda/envs/wingsby/lib/python3.6/site-packages/tensorboard/plugins/beholder/im_util.py", line 242, in read_image
+    return np.array(decode_png(image_file.read()))
+  File "/home/wingsby/.conda/envs/wingsby/lib/python3.6/site-packages/tensorboard/plugins/beholder/im_util.py", line 159, in __call__
+    self._lazily_initialize()
+  File "/home/wingsby/.conda/envs/wingsby/lib/python3.6/site-packages/tensorboard/plugins/beholder/im_util.py", line 137, in _lazily_initialize
+    self._session = tf.Session(graph=graph, config=config)
+  File "/home/wingsby/.conda/envs/wingsby/lib/python3.6/site-packages/tensorflow/python/client/session.py", line 1560, in __init__
+    super(Session, self).__init__(target, graph, config=config)
+  File "/home/wingsby/.conda/envs/wingsby/lib/python3.6/site-packages/tensorflow/python/client/session.py", line 633, in __init__
+    self._session = tf_session.TF_NewSession(self._graph._c_graph, opts)
+tensorflow.python.framework.errors_impl.InternalError: Failed to create session.
+2018-11-01 10:39:38.886107: I tensorflow/core/platform/cpu_feature_guard.cc:140] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+2018-11-01 10:39:38.957403: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:898] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-11-01 10:39:38.957891: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1356] Found device 0 with properties: 
+name: GeForce GTX 1070 Ti major: 6 minor: 1 memoryClockRate(GHz): 1.683
+pciBusID: 0000:01:00.0
+totalMemory: 7.93GiB freeMemory: 57.56MiB
+2018-11-01 10:39:39.024716: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:898] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-11-01 10:39:39.025984: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1356] Found device 1 with properties: 
+name: GeForce GTX 1070 Ti major: 6 minor: 1 memoryClockRate(GHz): 1.683
+pciBusID: 0000:02:00.0
+totalMemory: 7.93GiB freeMemory: 125.56MiB
+2018-11-01 10:39:39.026086: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1435] Adding visible gpu devices: 0, 1
+2018-11-01 10:39:39.199125: E tensorflow/core/common_runtime/direct_session.cc:154] Internal: CUDA runtime implicit initialization on GPU:0 failed. Status: out of memory
+Traceback (most recent call last):
+  File "/home/wingsby/.conda/envs/wingsby/bin/tensorboard", line 11, in <module>
+    sys.exit(run_main())
+  File "/home/wingsby/.conda/envs/wingsby/lib/python3.6/site-packages/tensorboard/main.py", line 36, in run_main
+    tf.app.run(main)
+  File "/home/wingsby/.conda/envs/wingsby/lib/python3.6/site-packages/tensorflow/python/platform/app.py", line 126, in run
+    _sys.exit(main(argv))
+  File "/home/wingsby/.conda/envs/wingsby/lib/python3.6/site-packages/tensorboard/main.py", line 45, in main
+    default.get_assets_zip_provider())
+  File "/home/wingsby/.conda/envs/wingsby/lib/python3.6/site-packages/tensorboard/program.py", line 166, in main
+    tb = create_tb_app(plugins, assets_zip_provider)
+  File "/home/wingsby/.conda/envs/wingsby/lib/python3.6/site-packages/tensorboard/program.py", line 201, in create_tb_app
+    flags=FLAGS)
+  File "/home/wingsby/.conda/envs/wingsby/lib/python3.6/site-packages/tensorboard/backend/application.py", line 126, in standard_tensorboard_wsgi
+    plugin_instances = [constructor(context) for constructor in plugins]
+  File "/home/wingsby/.conda/envs/wingsby/lib/python3.6/site-packages/tensorboard/backend/application.py", line 126, in <listcomp>
+    plugin_instances = [constructor(context) for constructor in plugins]
+  File "/home/wingsby/.conda/envs/wingsby/lib/python3.6/site-packages/tensorboard/plugins/beholder/beholder_plugin.py", line 47, in __init__
+    self.most_recent_frame = im_util.get_image_relative_to_script('no-data.png')
+  File "/home/wingsby/.conda/envs/wingsby/lib/python3.6/site-packages/tensorboard/plugins/beholder/im_util.py", line 254, in get_image_relative_to_script
+    return read_image(filename)
+  File "/home/wingsby/.conda/envs/wingsby/lib/python3.6/site-packages/tensorboard/plugins/beholder/im_util.py", line 242, in read_image
+    return np.array(decode_png(image_file.read()))
+  File "/home/wingsby/.conda/envs/wingsby/lib/python3.6/site-packages/tensorboard/plugins/beholder/im_util.py", line 159, in __call__
+    self._lazily_initialize()
+  File "/home/wingsby/.conda/envs/wingsby/lib/python3.6/site-packages/tensorboard/plugins/beholder/im_util.py", line 137, in _lazily_initialize
+    self._session = tf.Session(graph=graph, config=config)
+  File "/home/wingsby/.conda/envs/wingsby/lib/python3.6/site-packages/tensorflow/python/client/session.py", line 1560, in __init__
+    super(Session, self).__init__(target, graph, config=config)
+  File "/home/wingsby/.conda/envs/wingsby/lib/python3.6/site-packages/tensorflow/python/client/session.py", line 633, in __init__
+    self._session = tf_session.TF_NewSession(self._graph._c_graph, opts)
+tensorflow.python.framework.errors_impl.InternalError: Failed to create session.
+2018-11-01 10:49:37.143599: I tensorflow/core/platform/cpu_feature_guard.cc:140] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+2018-11-01 10:49:37.245281: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:898] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-11-01 10:49:37.245774: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1356] Found device 0 with properties: 
+name: GeForce GTX 1070 Ti major: 6 minor: 1 memoryClockRate(GHz): 1.683
+pciBusID: 0000:01:00.0
+totalMemory: 7.93GiB freeMemory: 114.62MiB
+2018-11-01 10:49:37.332077: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:898] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-11-01 10:49:37.332554: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1356] Found device 1 with properties: 
+name: GeForce GTX 1070 Ti major: 6 minor: 1 memoryClockRate(GHz): 1.683
+pciBusID: 0000:02:00.0
+totalMemory: 7.93GiB freeMemory: 125.56MiB
+2018-11-01 10:49:37.332659: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1435] Adding visible gpu devices: 0, 1
+2018-11-01 10:49:38.213002: I tensorflow/core/common_runtime/gpu/gpu_device.cc:923] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-11-01 10:49:38.213038: I tensorflow/core/common_runtime/gpu/gpu_device.cc:929]      0 1 
+2018-11-01 10:49:38.213049: I tensorflow/core/common_runtime/gpu/gpu_device.cc:942] 0:   N Y 
+2018-11-01 10:49:38.213056: I tensorflow/core/common_runtime/gpu/gpu_device.cc:942] 1:   Y N 
+TensorBoard 1.8.0 at http://localhost.localdomain:6006 (Press CTRL+C to quit)
+W1101 10:51:14.117529 Thread-19 application.py:274] path /[[_dataImageSrc]] not found, sending 404
+W1101 10:51:14.156228 Thread-20 application.py:274] path /[[_imageURL]] not found, sending 404

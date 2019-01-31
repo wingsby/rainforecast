@@ -1,0 +1,20 @@
+2018-12-11 23:18:35.362596: I tensorflow/core/platform/cpu_feature_guard.cc:140] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+2018-12-11 23:18:35.507408: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:898] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-12-11 23:18:35.507975: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1356] Found device 0 with properties: 
+name: GeForce GTX 1070 Ti major: 6 minor: 1 memoryClockRate(GHz): 1.683
+pciBusID: 0000:01:00.0
+totalMemory: 7.93GiB freeMemory: 7.32GiB
+2018-12-11 23:18:35.600200: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:898] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-12-11 23:18:35.600753: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1356] Found device 1 with properties: 
+name: GeForce GTX 1070 Ti major: 6 minor: 1 memoryClockRate(GHz): 1.683
+pciBusID: 0000:02:00.0
+totalMemory: 7.93GiB freeMemory: 7.65GiB
+2018-12-11 23:18:35.603353: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1435] Adding visible gpu devices: 0, 1
+2018-12-11 23:18:36.551950: I tensorflow/core/common_runtime/gpu/gpu_device.cc:923] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-12-11 23:18:36.552002: I tensorflow/core/common_runtime/gpu/gpu_device.cc:929]      0 1 
+2018-12-11 23:18:36.552014: I tensorflow/core/common_runtime/gpu/gpu_device.cc:942] 0:   N Y 
+2018-12-11 23:18:36.552026: I tensorflow/core/common_runtime/gpu/gpu_device.cc:942] 1:   Y N 
+2018-12-11 23:18:36.555172: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1053] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 7068 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1070 Ti, pci bus id: 0000:01:00.0, compute capability: 6.1)
+2018-12-11 23:18:36.555870: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1053] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:1 with 7392 MB memory) -> physical GPU (device: 1, name: GeForce GTX 1070 Ti, pci bus id: 0000:02:00.0, compute capability: 6.1)
+ERROR:tensorflow:Exception in QueueRunner: Invalid PNG data, size 65564
+	 [[Node: model/DecodePng_44 = DecodePng[channels=1, dtype=DT_UINT8, _device="/job:localhost/replica:0/task:0/device:CPU:0"](model/ParseSingleExample/ParseSingleExample:44)]]

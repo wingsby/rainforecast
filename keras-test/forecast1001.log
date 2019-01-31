@@ -1,0 +1,144 @@
+2018-10-01 18:34:37.200348: I tensorflow/core/platform/cpu_feature_guard.cc:140] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+2018-10-01 18:34:37.658712: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:898] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-10-01 18:34:37.659207: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1356] Found device 0 with properties: 
+name: GeForce GTX 1070 Ti major: 6 minor: 1 memoryClockRate(GHz): 1.683
+pciBusID: 0000:02:00.0
+totalMemory: 7.93GiB freeMemory: 121.56MiB
+2018-10-01 18:34:37.659224: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1435] Adding visible gpu devices: 0
+2018-10-01 18:34:38.471254: I tensorflow/core/common_runtime/gpu/gpu_device.cc:923] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-10-01 18:34:38.471288: I tensorflow/core/common_runtime/gpu/gpu_device.cc:929]      0 
+2018-10-01 18:34:38.471298: I tensorflow/core/common_runtime/gpu/gpu_device.cc:942] 0:   N 
+2018-10-01 18:34:38.472102: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1053] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 65 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1070 Ti, pci bus id: 0000:02:00.0, compute capability: 6.1)
+/home/soft/anaconda3/lib/python3.6/site-packages/h5py/__init__.py:36: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  from ._conv import register_converters as _register_converters
+Using TensorFlow backend.
+Traceback (most recent call last):
+  File "kerasForecast_1001.py", line 41, in <module>
+    model = keras.models.load_model(model_path)
+  File "/home/soft/anaconda3/lib/python3.6/site-packages/keras/engine/saving.py", line 260, in load_model
+    model = model_from_config(model_config, custom_objects=custom_objects)
+  File "/home/soft/anaconda3/lib/python3.6/site-packages/keras/engine/saving.py", line 334, in model_from_config
+    return deserialize(config, custom_objects=custom_objects)
+  File "/home/soft/anaconda3/lib/python3.6/site-packages/keras/layers/__init__.py", line 55, in deserialize
+    printable_module_name='layer')
+  File "/home/soft/anaconda3/lib/python3.6/site-packages/keras/utils/generic_utils.py", line 145, in deserialize_keras_object
+    list(custom_objects.items())))
+  File "/home/soft/anaconda3/lib/python3.6/site-packages/keras/engine/sequential.py", line 292, in from_config
+    custom_objects=custom_objects)
+  File "/home/soft/anaconda3/lib/python3.6/site-packages/keras/layers/__init__.py", line 55, in deserialize
+    printable_module_name='layer')
+  File "/home/soft/anaconda3/lib/python3.6/site-packages/keras/utils/generic_utils.py", line 147, in deserialize_keras_object
+    return cls.from_config(config['config'])
+  File "/home/soft/anaconda3/lib/python3.6/site-packages/keras/layers/convolutional_recurrent.py", line 1073, in from_config
+    return cls(**config)
+  File "/home/soft/anaconda3/lib/python3.6/site-packages/keras/legacy/interfaces.py", line 91, in wrapper
+    return func(*args, **kwargs)
+  File "/home/soft/anaconda3/lib/python3.6/site-packages/keras/layers/convolutional_recurrent.py", line 951, in __init__
+    **kwargs)
+  File "/home/soft/anaconda3/lib/python3.6/site-packages/keras/layers/convolutional_recurrent.py", line 147, in __init__
+    **kwargs)
+  File "/home/soft/anaconda3/lib/python3.6/site-packages/keras/layers/recurrent.py", line 380, in __init__
+    super(RNN, self).__init__(**kwargs)
+  File "/home/soft/anaconda3/lib/python3.6/site-packages/keras/engine/base_layer.py", line 128, in __init__
+    raise TypeError('Keyword argument not understood:', kwarg)
+TypeError: ('Keyword argument not understood:', 'parallel_gpu')
+2018-10-01 18:35:30.486614: I tensorflow/core/platform/cpu_feature_guard.cc:140] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+2018-10-01 18:35:31.046599: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:898] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-10-01 18:35:31.047022: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1356] Found device 0 with properties: 
+name: GeForce GTX 1070 Ti major: 6 minor: 1 memoryClockRate(GHz): 1.683
+pciBusID: 0000:02:00.0
+totalMemory: 7.93GiB freeMemory: 121.56MiB
+2018-10-01 18:35:31.047040: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1435] Adding visible gpu devices: 0
+2018-10-01 18:35:31.978846: I tensorflow/core/common_runtime/gpu/gpu_device.cc:923] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-10-01 18:35:31.978877: I tensorflow/core/common_runtime/gpu/gpu_device.cc:929]      0 
+2018-10-01 18:35:31.978886: I tensorflow/core/common_runtime/gpu/gpu_device.cc:942] 0:   N 
+2018-10-01 18:35:31.979673: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1053] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 65 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1070 Ti, pci bus id: 0000:02:00.0, compute capability: 6.1)
+2018-10-01 18:35:38.450761: E tensorflow/stream_executor/cuda/cuda_dnn.cc:455] could not create cudnn handle: CUDNN_STATUS_INTERNAL_ERROR
+2018-10-01 18:35:38.450806: E tensorflow/stream_executor/cuda/cuda_dnn.cc:427] could not destroy cudnn handle: CUDNN_STATUS_BAD_PARAM
+2018-10-01 18:35:38.450825: F tensorflow/core/kernels/conv_ops.cc:713] Check failed: stream->parent()->GetConvolveAlgorithms( conv_parameters.ShouldIncludeWinogradNonfusedAlgo<T>(), &algorithms) 
+2018-10-01 18:36:17.895773: I tensorflow/core/platform/cpu_feature_guard.cc:140] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+2018-10-01 18:36:18.372799: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:898] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-10-01 18:36:18.373324: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1356] Found device 0 with properties: 
+name: GeForce GTX 1070 Ti major: 6 minor: 1 memoryClockRate(GHz): 1.683
+pciBusID: 0000:01:00.0
+totalMemory: 7.93GiB freeMemory: 7.81GiB
+2018-10-01 18:36:18.373341: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1435] Adding visible gpu devices: 0
+2018-10-01 18:36:18.578509: I tensorflow/core/common_runtime/gpu/gpu_device.cc:923] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-10-01 18:36:18.578545: I tensorflow/core/common_runtime/gpu/gpu_device.cc:929]      0 
+2018-10-01 18:36:18.578554: I tensorflow/core/common_runtime/gpu/gpu_device.cc:942] 0:   N 
+2018-10-01 18:36:18.578729: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1053] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 7546 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1070 Ti, pci bus id: 0000:01:00.0, compute capability: 6.1)
+Using TensorFlow backend.
+Traceback (most recent call last):
+  File "kerasForecast_1001.py", line 78, in <module>
+    tmp=out2[0,idx[i],:,:,0]
+IndexError: index 7 is out of bounds for axis 1 with size 7
+2018-10-01 18:36:43.014441: I tensorflow/core/platform/cpu_feature_guard.cc:140] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+2018-10-01 18:36:43.352318: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:898] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-10-01 18:36:43.352886: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1356] Found device 0 with properties: 
+name: GeForce GTX 1070 Ti major: 6 minor: 1 memoryClockRate(GHz): 1.683
+pciBusID: 0000:01:00.0
+totalMemory: 7.93GiB freeMemory: 7.81GiB
+2018-10-01 18:36:43.352906: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1435] Adding visible gpu devices: 0
+2018-10-01 18:36:43.561353: I tensorflow/core/common_runtime/gpu/gpu_device.cc:923] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-10-01 18:36:43.561389: I tensorflow/core/common_runtime/gpu/gpu_device.cc:929]      0 
+2018-10-01 18:36:43.561399: I tensorflow/core/common_runtime/gpu/gpu_device.cc:942] 0:   N 
+2018-10-01 18:36:43.561575: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1053] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 7546 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1070 Ti, pci bus id: 0000:01:00.0, compute capability: 6.1)
+Using TensorFlow backend.
+Traceback (most recent call last):
+  File "kerasForecast_1001.py", line 78, in <module>
+    tmp=out2[0,idx[i],:,:,0]
+IndexError: index 7 is out of bounds for axis 1 with size 7
+2018-10-01 18:38:15.358767: I tensorflow/core/platform/cpu_feature_guard.cc:140] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+2018-10-01 18:38:15.695533: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:898] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-10-01 18:38:15.696722: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1356] Found device 0 with properties: 
+name: GeForce GTX 1070 Ti major: 6 minor: 1 memoryClockRate(GHz): 1.683
+pciBusID: 0000:01:00.0
+totalMemory: 7.93GiB freeMemory: 7.81GiB
+2018-10-01 18:38:15.696745: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1435] Adding visible gpu devices: 0
+2018-10-01 18:38:15.900480: I tensorflow/core/common_runtime/gpu/gpu_device.cc:923] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-10-01 18:38:15.900516: I tensorflow/core/common_runtime/gpu/gpu_device.cc:929]      0 
+2018-10-01 18:38:15.900526: I tensorflow/core/common_runtime/gpu/gpu_device.cc:942] 0:   N 
+2018-10-01 18:38:15.900699: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1053] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 7546 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1070 Ti, pci bus id: 0000:01:00.0, compute capability: 6.1)
+Using TensorFlow backend.
+cannot identify image file '/dpdata/SRAD2018_Test_2/RAD_367673425670424/RAD_367673425670424_027.png'
+Traceback (most recent call last):
+  File "kerasForecast_1001.py", line 76, in <module>
+    tmp=out[0, idx[i], :, :, 0]
+IndexError: index 6 is out of bounds for axis 1 with size 6
+2018-10-01 22:45:10.761379: I tensorflow/core/platform/cpu_feature_guard.cc:140] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+2018-10-01 22:45:11.213232: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:898] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-10-01 22:45:11.213712: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1356] Found device 0 with properties: 
+name: GeForce GTX 1070 Ti major: 6 minor: 1 memoryClockRate(GHz): 1.683
+pciBusID: 0000:02:00.0
+totalMemory: 7.93GiB freeMemory: 121.56MiB
+2018-10-01 22:45:11.213746: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1435] Adding visible gpu devices: 0
+2018-10-01 22:45:12.000572: I tensorflow/core/common_runtime/gpu/gpu_device.cc:923] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-10-01 22:45:12.000604: I tensorflow/core/common_runtime/gpu/gpu_device.cc:929]      0 
+2018-10-01 22:45:12.000615: I tensorflow/core/common_runtime/gpu/gpu_device.cc:942] 0:   N 
+2018-10-01 22:45:12.001425: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1053] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 65 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1070 Ti, pci bus id: 0000:02:00.0, compute capability: 6.1)
+2018-10-01 22:45:18.608882: E tensorflow/stream_executor/cuda/cuda_dnn.cc:455] could not create cudnn handle: CUDNN_STATUS_INTERNAL_ERROR
+2018-10-01 22:45:18.608946: E tensorflow/stream_executor/cuda/cuda_dnn.cc:427] could not destroy cudnn handle: CUDNN_STATUS_BAD_PARAM
+2018-10-01 22:45:18.608970: F tensorflow/core/kernels/conv_ops.cc:713] Check failed: stream->parent()->GetConvolveAlgorithms( conv_parameters.ShouldIncludeWinogradNonfusedAlgo<T>(), &algorithms) 
+2018-10-01 22:45:40.867614: I tensorflow/core/platform/cpu_feature_guard.cc:140] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+2018-10-01 22:45:41.353011: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:898] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-10-01 22:45:41.353557: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1356] Found device 0 with properties: 
+name: GeForce GTX 1070 Ti major: 6 minor: 1 memoryClockRate(GHz): 1.683
+pciBusID: 0000:01:00.0
+totalMemory: 7.93GiB freeMemory: 7.81GiB
+2018-10-01 22:45:41.353577: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1435] Adding visible gpu devices: 0
+2018-10-01 22:45:41.557010: I tensorflow/core/common_runtime/gpu/gpu_device.cc:923] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-10-01 22:45:41.557044: I tensorflow/core/common_runtime/gpu/gpu_device.cc:929]      0 
+2018-10-01 22:45:41.557053: I tensorflow/core/common_runtime/gpu/gpu_device.cc:942] 0:   N 
+2018-10-01 22:45:41.557223: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1053] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 7546 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1070 Ti, pci bus id: 0000:01:00.0, compute capability: 6.1)
+2018-10-01 22:56:41.477975: I tensorflow/core/platform/cpu_feature_guard.cc:140] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+2018-10-01 22:56:41.822701: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:898] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-10-01 22:56:41.823228: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1356] Found device 0 with properties: 
+name: GeForce GTX 1070 Ti major: 6 minor: 1 memoryClockRate(GHz): 1.683
+pciBusID: 0000:01:00.0
+totalMemory: 7.93GiB freeMemory: 7.81GiB
+2018-10-01 22:56:41.823249: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1435] Adding visible gpu devices: 0
+2018-10-01 22:56:42.025669: I tensorflow/core/common_runtime/gpu/gpu_device.cc:923] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-10-01 22:56:42.025703: I tensorflow/core/common_runtime/gpu/gpu_device.cc:929]      0 
+2018-10-01 22:56:42.025713: I tensorflow/core/common_runtime/gpu/gpu_device.cc:942] 0:   N 
+2018-10-01 22:56:42.025893: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1053] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 7546 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1070 Ti, pci bus id: 0000:01:00.0, compute capability: 6.1)
+Using TensorFlow backend.

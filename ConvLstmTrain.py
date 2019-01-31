@@ -24,23 +24,33 @@ height = 40
 out_path = '/home/wingsby/SRAD.tf'
 
 
-# os.environ["CUDA_VISIBLE_DEVICES"] = "1"
-# config = tf.ConfigProto()
-# config.gpu_options.allow_growth = True
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+config = tf.ConfigProto()
+config.gpu_options.allow_growth = True
+
+
+# def forword(inputdata):
+#
+#     finputdata = tf.tile(tf.expand_dims(inputdata, -1), [1, 1, 1, 1, hidden_units1])
+#     cell1 = ConvLSTMCell(shape=[width, height], filters=hidden_units1, kernel=[5, 5])
+#     cell2 = ConvLSTMCell(shape=[width,height],filters=hidden_units2,kernel=[3,3])
+#     multi_rnn_cell = tf.nn.rnn_cell.MultiRNNCell([cell1,cell2])
+#     # multi_rnn_cell.zero_state(batch_size,dtype=tf.uint8)
+#     # cell1=BasicLSTMCell()
+#     # tf.nn.static_rnn
+#     outputs, final_state = tf.nn.dynamic_rnn(multi_rnn_cell, inputs=finputdata, dtype=tf.float32)
+#     weights = tf.truncated_normal([time_step, 3, 3, hidden_units1, 1], stddev=0.1)
+#     conv1 = tf.constant(0.1)
+#     out = tf.nn.relu(tf.nn.conv3d(outputs, weights, padding='SAME', strides=[1, 1, 1, 1, 1])) + conv1
+#     # tf.nn.conv2d(x, w, strides=[1, 1, 1, 1], padding='SAME')
+#     return out, final_state
 
 
 def forword(inputdata):
-    # data=[batch_size, max_time, ...]
-    # initstates=
-    # cell = ConvLSTMCell(shape, filters, kernel)
-    # outputs, state = tf.nn.dynamic_rnn(cell, inputs, dtype=
-    # inputs = tf.placeholder(tf.float32, [batch_size, time_step] + [width,height] + [3])
     finputdata = tf.tile(tf.expand_dims(inputdata, -1), [1, 1, 1, 1, hidden_units1])
     cell1 = ConvLSTMCell(shape=[width, height], filters=hidden_units1, kernel=[5, 5])
-    cell2 = ConvLSTMCell(shape=[width,height],filters=hidden_units2,kernel=[3,3])
-    multi_rnn_cell = tf.nn.rnn_cell.MultiRNNCell([cell1,cell2])
-    # multi_rnn_cell.zero_state(batch_size,dtype=tf.uint8)
-    # cell1=BasicLSTMCell()
+    cell2 = ConvLSTMCell(shape=[width, height], filters=hidden_units2, kernel=[3, 3])
+    multi_rnn_cell = tf.nn.rnn_cell.MultiRNNCell([cell1, cell2])
 
     outputs, final_state = tf.nn.dynamic_rnn(multi_rnn_cell, inputs=finputdata, dtype=tf.float32)
     weights = tf.truncated_normal([time_step, 3, 3, hidden_units1, 1], stddev=0.1)
@@ -48,7 +58,6 @@ def forword(inputdata):
     out = tf.nn.relu(tf.nn.conv3d(outputs, weights, padding='SAME', strides=[1, 1, 1, 1, 1])) + conv1
     # tf.nn.conv2d(x, w, strides=[1, 1, 1, 1], padding='SAME')
     return out, final_state
-
 
 def mean_squared_error(true, pred):
     """L2 distance between tensors true and pred.
@@ -122,6 +131,7 @@ def HSSLoss(true, pred):
 
 
 def train():
+
     exampleBatch = IOUtil.readBatchData(out_path, batch_size, time_step, width, height)
     # exampleBatch = tf.cast(exampleBatch, tf.float32)
     x_data = exampleBatch
@@ -140,19 +150,45 @@ def train():
         sess.run(tf.local_variables_initializer())
         coord = tf.train.Coordinator()
         threads = tf.train.start_queue_runners(coord=coord)
-
-        for i in range(0, 100000):
+        saver = tf.train.Saver(max_to_keep=4)
+        for i in range(0, 100):
             train_step.run()
             temp_loss, out = sess.run([loss, outputs])
-
-            if (i + 1) % 2000 == 0:
+            if (i + 1) % 50 == 0:
                 print('Step #' + str(i + 1))
                 # temp_loss,out = sess.run([loss,outputs])
                 plt.imshow(out[0, 0, :, :])
                 plt.show()
                 print('Loss = ' + str(temp_loss))
                 # loss_batch.append(temp_loss)
+                # saver.save(sess, "/dpdata/rain", global_step=i)
+        saver.save(sess, "/dpdata/rain")
 
+
+def forecast():
+
+    exampleBatch = IOUtil.readBatchData(out_path, batch_size, time_step, width, height)
+    x_data = exampleBatch
+    y_target = exampleBatch
+    outputs, final_state = forword(x_data)
+    saver = tf.train.Saver(tf.global_variables())
+    with tf.Session() as sess:
+        # 参数恢复
+        # module_file = tf.train.latest_checkpoint('/dpdata/checkpoint')
+        saver.restore(sess, '/dpdata/rain')
+        # 取训练集最后一行为测试样本。shape=[1,time_step,input_size]
+        # prev_seq = train_x[-1]
+        predict = []
+        # 得到之后100个预测结果
+        for i in range(100):
+            out=sess.run([outputs])
+        # 以折线图表示结果
+        plt.figure()
+        # plt.plot(list(range(len(normalize_data))), normalize_data, color='b')
+        # plt.plot(list(range(len(normalize_data), len(normalize_data) + len(predict))), predict, color='r')
+        plt.show()
 
 if __name__ == "__main__":
     train()
+    forecast()
+

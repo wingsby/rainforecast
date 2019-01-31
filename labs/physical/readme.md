@@ -1,0 +1,2 @@
+加入物理先验的网络:
+在convlstm中添加warp scheme比较合适
